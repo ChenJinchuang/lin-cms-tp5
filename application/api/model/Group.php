@@ -15,7 +15,7 @@ use think\Exception;
 
 class Group extends BaseModel
 {
-
+    protected $table = 'lin_group';
     /**
      * @param $id
      * @return array|\PDOStatement|string|\think\Model
@@ -27,7 +27,7 @@ class Group extends BaseModel
     public static function getGroupByID($id)
     {
         try {
-            $group = self::findOrFail($id);
+            $group = self::findOrFail($id)->toArray();
         } catch (Exception $ex) {
             throw new GroupException([
                 'code' => 404,
@@ -35,12 +35,10 @@ class Group extends BaseModel
                 'errorCode' => 30003
             ]);
         }
-        $auths = Auth::where('group_id', $group->id)
-            ->field('group_id', true)
-            ->select();
-        $group = $group->toArray();
 
-        $group['auths'] = split_modules($auths->toArray());
+        $auths = Auth::getAuthByGroupID($group['id']);
+
+        $group['auths'] = empty($auths) ? [] : split_modules($auths);;
 
         return $group;
 

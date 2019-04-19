@@ -2,7 +2,7 @@
 
 namespace app\http\middleware;
 
-use app\lib\auth\Auth as AuthService;
+use app\lib\auth\Auth as Permission ;
 use app\lib\exception\token\ForbiddenException;
 
 class Auth
@@ -18,7 +18,7 @@ class Auth
      */
     public function handle($request, \Closure $next)
     {
-        $auth = (new AuthService($request))->check();
+        $auth = (new Permission($request))->check();
 
         if (!$auth) {
             throw new ForbiddenException();

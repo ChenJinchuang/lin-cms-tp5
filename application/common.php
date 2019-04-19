@@ -62,7 +62,7 @@ function split_modules($auths, $key = 'module')
                     $items[$k][$value['module']][] = $value;
                 } else {
                     $item = [
-                        $value['module'] => $value
+                        $value['module'] => [$value]
                     ];
                     $items[] = $item;
                 }

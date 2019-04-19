@@ -8,8 +8,8 @@
 
 namespace app\lib\auth;
 
-use app\api\service\Token as TokenService;
 use app\api\model\User as UserModel;
+use app\lib\token\Token;
 
 class Auth
 {
@@ -35,8 +35,8 @@ class Auth
         // 账户信息，包含所拥有的权限列表
         $userAuth = $this->userAuth();
 
-        // 如果这个方法没有添加权限标识，直接通过
-        if (empty($actionAuth) || $userAuth['super'] == 1){
+        // 如果这个方法没有添加权限标识，或者账户属于超级管理员，直接通过
+        if (empty($actionAuth) || $userAuth['admin'] == 2) {
             return true;
         }
 
@@ -61,11 +61,15 @@ class Auth
      */
     protected function actionAuth()
     {
+        // 获取当前请求的控制层
         $controller = $this->request->controller();
+        // 控制层下有二级目录，需要解析下。如controller/cms/Admin，获取到的是Cms.Admin
+        $controllerPath = explode('.', $controller);
+        // 获取当前请求的方法
         $action = $this->request->action();
-
-        $class = new \ReflectionClass('app\\api\\controller\\' . $controller);
-        // 获取指定方法的注释
+        // 反射获取当前请求的控制器类
+        $class = new \ReflectionClass('app\\api\\controller\\' . $controllerPath[0] . '\\' . $controllerPath[1]);
+        // 获取控制器类下指定方法的注释
         $actionDoc = $class->getMethod($action)->getDocComment();
         // 获取方法内的权限标识内容
         $actionAuth = (new AuthMap())->getMethodDoc($actionDoc);
@@ -82,7 +86,7 @@ class Auth
      */
     protected function userAuth()
     {
-        $uid = TokenService::getCurrentUid();
+        $uid = Token::getCurrentUID();
         $user = UserModel::getPersonageInfo($uid);
 
         return $user->toArray();
