@@ -35,6 +35,9 @@ Route::group('cms', function () {
         Route::post('group', 'api/cms.Admin/createGroup');
         // 查询所有可分配的权限
         Route::get('authority', 'api/cms.Admin/authority');
+        // 删除多个权限
+        Route::post('remove', 'api/cms.Admin/removeAuths');
+
     });
 })
     ->allowCrossDomain();

@@ -8,6 +8,7 @@
 
 namespace app\api\controller\cms;
 
+use app\api\model\Auth;
 use app\api\model\Group as GroupModel;
 use app\lib\auth\AuthMap;
 use app\lib\exception\group\GroupException;
@@ -52,7 +53,7 @@ class Admin
     {
         GroupModel::destroy($id);
 
-        return writeJson(201, '','删除分组成功');
+        return writeJson(201, '', '删除分组成功');
     }
 
     /**
@@ -107,5 +108,22 @@ class Admin
         $result = (new AuthMap())->run();
 
         return $result;
+    }
+
+    /**
+     * @auth('删除多个权限','管理员')
+     * @param Request $request
+     * @return \think\response\Json
+     * @throws \think\Exception
+     * @throws \think\exception\PDOException
+     */
+    public function removeAuths(Request $request)
+    {
+        $params = $request->post();
+        Auth::where(['group_id' => $params['group_id'], 'auth' => $params['auths']])
+            ->delete();
+
+        return writeJson(201, '', '删除权限成功');
+
     }
 }
