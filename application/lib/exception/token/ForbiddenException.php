@@ -15,5 +15,5 @@ class ForbiddenException extends BaseException
 {
     public $code = 403;
     public $msg  = '权限不足，请联系管理员';
-    public $errorCode = 10002;
+    public $error_code = 10002;
 }

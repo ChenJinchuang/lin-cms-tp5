@@ -8,14 +8,73 @@
 
 namespace app\api\controller\cms;
 
-use app\api\model\Auth;
+use app\api\model\Auth as AuthModel;
 use app\api\model\Group as GroupModel;
+use app\api\model\User as UserModel;
 use app\lib\auth\AuthMap;
 use app\lib\exception\group\GroupException;
 use think\Request;
 
 class Admin
 {
+
+    /**
+     * @auth('查询所有用户','管理员')
+     * @param Request $request
+     * @return array
+     * @throws \think\exception\DbException
+     */
+    public function getAdminUsers(Request $request)
+    {
+        $params = $request->get();
+
+        $result = UserModel::getAdminUsers($params);
+        return $result;
+    }
+
+    /**
+     * @auth('修改用户密码','管理员')
+     * @param Request $request
+     * @return \think\response\Json
+     * @throws \app\lib\exception\user\UserException
+     */
+    public function changeUserPassword(Request $request)
+    {
+        $params = $request->param();
+
+        UserModel::resetPassword($params);
+        return writeJson(201, '', '密码修改成功');
+
+    }
+
+    /**
+     * @param $uid
+     * @return \think\response\Json
+     * @throws \app\lib\exception\user\UserException
+     */
+    public function deleteUser($uid)
+    {
+        UserModel::deleteUser($uid);
+        return writeJson(201, '', '操作成功');
+    }
+
+    /**
+     * @auth('更新用户信息','管理员')
+     * @param Request $request
+     * @return \think\response\Json
+     * @throws \app\lib\exception\user\UserException
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function updateUser(Request $request)
+    {
+        $params = $request->param();
+        UserModel::updateUser($params);
+        return writeJson(201, '', '操作成功');
+
+    }
+
     /**
      * @auth('查询所有权限组','管理员')
      * @return mixed
@@ -120,7 +179,7 @@ class Admin
     public function removeAuths(Request $request)
     {
         $params = $request->post();
-        Auth::where(['group_id' => $params['group_id'], 'auth' => $params['auths']])
+        AuthModel::where(['group_id' => $params['group_id'], 'auth' => $params['auths']])
             ->delete();
 
         return writeJson(201, '', '删除权限成功');
@@ -141,11 +200,11 @@ class Admin
         $params = $request->post();
 
         foreach ($params['auths'] as $value) {
-            $auth = Auth::where(['group_id' => $params['group_id'], 'auth' => $value])->find();
+            $auth = AuthModel::where(['group_id' => $params['group_id'], 'auth' => $value])->find();
             if (!$auth) {
                 $authItem = findAuthModule($value);
                 $authItem['group_id'] = $params['group_id'];
-                Auth::create($authItem);
+                AuthModel::create($authItem);
             }
         }
 

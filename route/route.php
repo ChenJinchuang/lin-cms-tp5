@@ -20,6 +20,8 @@ Route::group('cms', function () {
             ->middleware('Login');
         // 查询自己拥有的权限
         Route::get('auths', 'api/cms.User/getAllowedApis');
+        // 注册一个用户
+        Route::post('register', 'api/cms.User/register');
     });
     // 管理类接口
     Route::group('admin', function () {
@@ -38,7 +40,15 @@ Route::group('cms', function () {
         // 删除多个权限
         Route::post('remove', 'api/cms.Admin/removeAuths');
         // 添加多个权限
-        Route::post('/dispatch/patch','api/cms.Admin/dispatchAuths');
+        Route::post('/dispatch/patch', 'api/cms.Admin/dispatchAuths');
+        // 查询所有用户
+        Route::get('users', 'api/cms.Admin/getAdminUsers');
+        // 修改用户密码
+        Route::put('password/:uid', 'api/cms.Admin/changeUserPassword');
+        // 删除用户
+        Route::delete(':uid', 'api/cms.Admin/deleteUser');
+        // 更新用户信息
+        Route::put(':uid', 'api/cms.Admin/updateUser');
 
     });
 })

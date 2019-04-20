@@ -16,7 +16,7 @@ class ExceptionHandler extends Handle
 {
     private $code;
     private $msg;
-    private $errorCode;
+    private $error_code;
 
     //需要返回客户端当前请求的URL路径
 
@@ -30,21 +30,21 @@ class ExceptionHandler extends Handle
             //如果是属于自定义的异常
             $this->code = $e->code;
             $this->msg = $e->msg;
-            $this->errorCode = $e->errorCode;
+            $this->error_code = $e->error_code;
         } else {
             if (config('app_debug')) {
                 return parent::render($e);
             } else {
                 $this->code = 500;
                 $this->msg = '服務器內部錯誤，不想告訴你';
-                $this->errorCode = 999;
+                $this->error_code = 999;
                 $this->recordErrorLog($e);
             }
         }
 
         $result = [
             'msg' => $this->msg,
-            'errorCode' => $this->errorCode,
+            'error_code' => $this->error_code,
             'request_url' => Request::url()
         ];
         return json($result, $this->code);

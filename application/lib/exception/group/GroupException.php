@@ -15,5 +15,5 @@ class GroupException extends BaseException
 {
     public $code = 400;
     public $msg  = '分组错误';
-    public $errorCode  = 30000;
+    public $error_code  = 30000;
 }

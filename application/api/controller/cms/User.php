@@ -37,4 +37,19 @@ class User extends Controller
         return $result;
     }
 
+    /**
+     * @param Request $request
+     * @return \think\response\Json
+     * @throws \app\lib\exception\user\UserException
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function register(Request $request)
+    {
+        $params = $request->post();
+        UserModel::createUser($params);
+        return writeJson(201, '', '用户创建成功');
+    }
+
 }
