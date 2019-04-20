@@ -11,45 +11,62 @@
 
 use think\facade\Route;
 
-Route::group('cms', function () {
+Route::group('', function () {
+    Route::group('cms', function () {
+        // 账户相关接口分组
+        Route::group('user', function () {
+            // 登陆接口
+            Route::post('login', 'api/cms.User/login')
+                ->middleware('Login');
+            // 查询自己拥有的权限
+            Route::get('auths', 'api/cms.User/getAllowedApis');
+            // 注册一个用户
+            Route::post('register', 'api/cms.User/register');
+        });
+        // 管理类接口
+        Route::group('admin', function () {
+            // 查询所有权限组
+            Route::get('group/all', 'api/cms.Admin/getGroupAll');
+            // 查询一个权限组及其权限
+            Route::get('group/:id', 'api/cms.Admin/getGroup');
+            // 删除一个权限组
+            Route::delete('group/:id', 'api/cms.Admin/deleteGroup');
+            // 更新一个权限组
+            Route::put('group/:id', 'api/cms.Admin/updateGroup');
+            // 新建权限组
+            Route::post('group', 'api/cms.Admin/createGroup');
+            // 查询所有可分配的权限
+            Route::get('authority', 'api/cms.Admin/authority');
+            // 删除多个权限
+            Route::post('remove', 'api/cms.Admin/removeAuths');
+            // 添加多个权限
+            Route::post('/dispatch/patch', 'api/cms.Admin/dispatchAuths');
+            // 查询所有用户
+            Route::get('users', 'api/cms.Admin/getAdminUsers');
+            // 修改用户密码
+            Route::put('password/:uid', 'api/cms.Admin/changeUserPassword');
+            // 删除用户
+            Route::delete(':uid', 'api/cms.Admin/deleteUser');
+            // 更新用户信息
+            Route::put(':uid', 'api/cms.Admin/updateUser');
 
-    // 账户相关接口分组
-    Route::group('user', function () {
-        // 登陆接口
-        Route::post('login', 'api/cms.User/login')
-            ->middleware('Login');
-        // 查询自己拥有的权限
-        Route::get('auths', 'api/cms.User/getAllowedApis');
-        // 注册一个用户
-        Route::post('register', 'api/cms.User/register');
+        });
     });
-    // 管理类接口
-    Route::group('admin', function () {
-        // 查询所有权限组
-        Route::get('group/all', 'api/cms.Admin/getGroupAll');
-        // 查询一个权限组及其权限
-        Route::get('group/:id', 'api/cms.Admin/getGroup');
-        // 删除一个权限组
-        Route::delete('group/:id', 'api/cms.Admin/deleteGroup');
-        // 更新一个权限组
-        Route::put('group/:id', 'api/cms.Admin/updateGroup');
-        // 新建权限组
-        Route::post('group', 'api/cms.Admin/createGroup');
-        // 查询所有可分配的权限
-        Route::get('authority', 'api/cms.Admin/authority');
-        // 删除多个权限
-        Route::post('remove', 'api/cms.Admin/removeAuths');
-        // 添加多个权限
-        Route::post('/dispatch/patch', 'api/cms.Admin/dispatchAuths');
-        // 查询所有用户
-        Route::get('users', 'api/cms.Admin/getAdminUsers');
-        // 修改用户密码
-        Route::put('password/:uid', 'api/cms.Admin/changeUserPassword');
-        // 删除用户
-        Route::delete(':uid', 'api/cms.Admin/deleteUser');
-        // 更新用户信息
-        Route::put(':uid', 'api/cms.Admin/updateUser');
+    Route::group('v1', function () {
+        Route::group('book', function () {
+            // 查询所有图书
+            Route::get('', 'api/v1.Book/getBooks');
+            // 查询指定bid的图书
+            Route::get(':bid', 'api/v1.Book/getBook');
+//            // 搜索图书
+//
+            // 新建图书
+            Route::post('', 'api/v1.Book/create');
+            // 更新图书
+            Route::put(':bid', 'api/v1.Book/update');
+            // 删除图书
+            Route::delete(':bid','api/v1.Book/delete');
+        });
+    });
+})->allowCrossDomain();
 
-    });
-})
-    ->allowCrossDomain();
