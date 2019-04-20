@@ -9,6 +9,7 @@
 namespace app\api\controller\cms;
 
 use app\api\model\Auth as AuthModel;
+use app\api\model\Auth;
 use app\api\model\Group as GroupModel;
 use app\api\model\User as UserModel;
 use app\lib\auth\AuthMap;
@@ -48,6 +49,7 @@ class Admin
     }
 
     /**
+     * @auth('删除用户','管理员')
      * @param $uid
      * @return \think\response\Json
      * @throws \app\lib\exception\user\UserException
@@ -183,7 +185,6 @@ class Admin
             ->delete();
 
         return writeJson(201, '', '删除权限成功');
-
     }
 
     /**
@@ -198,17 +199,8 @@ class Admin
     public function dispatchAuths(Request $request)
     {
         $params = $request->post();
-
-        foreach ($params['auths'] as $value) {
-            $auth = AuthModel::where(['group_id' => $params['group_id'], 'auth' => $value])->find();
-            if (!$auth) {
-                $authItem = findAuthModule($value);
-                $authItem['group_id'] = $params['group_id'];
-                AuthModel::create($authItem);
-            }
-        }
+        Auth::dispatchAuths($params);
 
         return writeJson(201, '', '添加权限成功');
-
     }
 }

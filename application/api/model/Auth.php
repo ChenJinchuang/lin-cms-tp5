@@ -29,4 +29,23 @@ class Auth extends BaseModel
             ->select()->toArray();
         return $result;
     }
+
+    /**
+     * @param $params
+     * @throws \ReflectionException
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public static function dispatchAuths($params)
+    {
+        foreach ($params['auths'] as $value) {
+            $auth = self::where(['group_id' => $params['group_id'], 'auth' => $value])->find();
+            if (!$auth) {
+                $authItem = findAuthModule($value);
+                $authItem['group_id'] = $params['group_id'];
+                self::create($authItem);
+            }
+        }
+    }
 }
