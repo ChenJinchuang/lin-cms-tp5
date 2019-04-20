@@ -37,6 +37,8 @@ Route::group('cms', function () {
         Route::get('authority', 'api/cms.Admin/authority');
         // 删除多个权限
         Route::post('remove', 'api/cms.Admin/removeAuths');
+        // 添加多个权限
+        Route::post('/dispatch/patch','api/cms.Admin/dispatchAuths');
 
     });
 })

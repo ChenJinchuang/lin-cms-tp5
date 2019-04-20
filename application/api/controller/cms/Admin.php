@@ -126,4 +126,30 @@ class Admin
         return writeJson(201, '', '删除权限成功');
 
     }
+
+    /**
+     * @auth('分配多个权限','管理员')
+     * @param Request $request
+     * @return \think\response\Json
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @throws \ReflectionException
+     */
+    public function dispatchAuths(Request $request)
+    {
+        $params = $request->post();
+
+        foreach ($params['auths'] as $value) {
+            $auth = Auth::where(['group_id' => $params['group_id'], 'auth' => $value])->find();
+            if (!$auth) {
+                $authItem = findAuthModule($value);
+                $authItem['group_id'] = $params['group_id'];
+                Auth::create($authItem);
+            }
+        }
+
+        return writeJson(201, '', '添加权限成功');
+
+    }
 }
