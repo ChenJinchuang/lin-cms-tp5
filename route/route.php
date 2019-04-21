@@ -52,21 +52,20 @@ Route::group('', function () {
 
         });
     });
+
     Route::group('v1', function () {
-        Route::group('book', function () {
-            // 查询所有图书
-            Route::get('', 'api/v1.Book/getBooks');
-            // 查询指定bid的图书
-            Route::get(':bid', 'api/v1.Book/getBook');
-//            // 搜索图书
-//
-            // 新建图书
-            Route::post('', 'api/v1.Book/create');
-            // 更新图书
-            Route::put(':bid', 'api/v1.Book/update');
-            // 删除图书
-            Route::delete(':bid','api/v1.Book/delete');
-        });
+        // 查询所有图书
+        Route::get('book/', 'api/v1.Book/getBooks');
+        // 新建图书
+        Route::post('book/', 'api/v1.Book/create');
+        // 查询指定bid的图书
+        Route::get('book/:bid', 'api/v1.Book/getBook');
+        // 搜索图书
+
+        // 更新图书
+        Route::put('book/:bid', 'api/v1.Book/update');
+        // 删除图书
+        Route::delete('book/:bid', 'api/v1.Book/delete');
     });
 })->allowCrossDomain();
 
