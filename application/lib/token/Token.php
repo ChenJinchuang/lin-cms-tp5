@@ -37,7 +37,8 @@ class Token
             'iss' => 'lin-cms-tp5', //签发者
             'iat' => time(), //什么时候签发的
             'exp' => time() + 7200, //过期时间
-            'uid' => $user->id
+            'uid' => $user->id,
+            'nickname'=>$user->nickname
         ];
         $token = JWT::encode($payload, $key);
         return $token;
@@ -64,6 +65,17 @@ class Token
     public static function getCurrentUID()
     {
         $uid = self::getCurrentTokenVar('uid');
+        return $uid;
+    }
+
+    /**
+     * @return mixed
+     * @throws Exception
+     * @throws TokenException
+     */
+    public static function getCurrentName()
+    {
+        $uid = self::getCurrentTokenVar('nickname');
         return $uid;
     }
 

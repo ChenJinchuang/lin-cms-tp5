@@ -45,7 +45,7 @@ class User extends BaseModel
                 'error_code' => 20004
             ]);
         }
-
+        $params['password'] = md5($params['password']);
         self::create($params);
     }
 

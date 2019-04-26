@@ -11,6 +11,11 @@
 
 // 应用公共文件
 use app\lib\auth\AuthMap;
+use think\facade\Request;
+use think\facade\Response;
+use app\lib\token\Token;
+use app\lib\exception\logger\LoggerException;
+use app\api\model\Log as LogModel;
 
 /**
  * @param $code
@@ -92,4 +97,32 @@ function findAuthModule($auth)
             }
         }
     }
+}
+
+/**
+ * @param string $message
+ * @param string $uid
+ * @param string $nickname
+ * @throws LoggerException
+ * @throws \app\lib\exception\token\TokenException
+ * @throws \think\Exception
+ */
+function logger(string $message, $uid = '', $nickname = '')
+{
+    if ($message === '') {
+        throw new LoggerException([
+            'msg' => '日志信息不能为空'
+        ]);
+    }
+
+    $params = [
+        'message' => $nickname ? $nickname . $message : Token::getCurrentName() . $message,
+        'user_id' => $uid ? $uid : Token::getCurrentUID(),
+        'user_name' => $nickname ? $nickname : Token::getCurrentName(),
+        'status_code' => Response::getCode(),
+        'method' => Request::method(),
+        'path' => Request::path(),
+        'authority' => ''
+    ];
+    LogModel::create($params);
 }

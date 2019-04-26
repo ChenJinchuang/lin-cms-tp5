@@ -52,11 +52,15 @@ class Admin
      * @auth('删除用户','管理员')
      * @param $uid
      * @return \think\response\Json
+     * @throws \app\lib\exception\token\TokenException
      * @throws \app\lib\exception\user\UserException
+     * @throws \think\Exception
      */
     public function deleteUser($uid)
     {
         UserModel::deleteUser($uid);
+
+        logger('删除了用户id为' . $uid . '的用户');
         return writeJson(201, '', '操作成功');
     }
 
@@ -109,11 +113,14 @@ class Admin
      * @auth('删除一个权限组','管理员')
      * @param $id
      * @return \think\response\Json
+     * @throws \app\lib\exception\token\TokenException
+     * @throws \think\Exception
      */
     public function deleteGroup($id)
     {
         GroupModel::destroy($id);
 
+        logger('删除了权限组id为' . $id . '的权限组');
         return writeJson(201, '', '删除分组成功');
     }
 
@@ -191,15 +198,18 @@ class Admin
      * @auth('分配多个权限','管理员')
      * @param Request $request
      * @return \think\response\Json
+     * @throws \ReflectionException
+     * @throws \app\lib\exception\token\TokenException
+     * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
-     * @throws \ReflectionException
      */
     public function dispatchAuths(Request $request)
     {
         $params = $request->post();
         Auth::dispatchAuths($params);
+        logger('修改了id为' . $params['group_id'] . '的权限');
 
         return writeJson(201, '', '添加权限成功');
     }

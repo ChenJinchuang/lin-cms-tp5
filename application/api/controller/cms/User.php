@@ -19,8 +19,10 @@ class User extends Controller
     {
         $params = $request->post();
         $user = UserModel::verify($params['nickname'], $params['password']);
-        // TODO 记录日志
+
         $result = Token::getToken($user);
+        logger('登陆领取了令牌', $user['id'], $user['nickname']);
+
         return $result;
     }
 
@@ -38,9 +40,12 @@ class User extends Controller
     }
 
     /**
+     * @auth('创建用户','管理员')
      * @param Request $request
      * @return \think\response\Json
+     * @throws \app\lib\exception\token\TokenException
      * @throws \app\lib\exception\user\UserException
+     * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
@@ -49,6 +54,9 @@ class User extends Controller
     {
         $params = $request->post();
         UserModel::createUser($params);
+
+        logger('创建了一个用户');
+
         return writeJson(201, '', '用户创建成功');
     }
 
