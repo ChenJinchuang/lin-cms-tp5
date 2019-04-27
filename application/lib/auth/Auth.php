@@ -35,15 +35,19 @@ class Auth
         // 账户信息，包含所拥有的权限列表
         $userAuth = $this->userAuth();
 
-        // 如果这个方法没有添加权限标识，或者账户属于超级管理员，直接通过
+        // 如果这个接口没有添加权限标识，或者账户属于超级管理员，直接通过
         if (empty($actionAuth) || $userAuth['admin'] == 2) {
             return true;
         }
 
         // 生成账户拥有权限的数组
         $authList = [];
-        foreach ($userAuth['role']['auth'] as $key => $value) {
-            array_push($authList, $value['auth']);
+        foreach ($userAuth['auths'] as $key => $value) {
+            foreach ($value as $k => $v) {
+                foreach ($v as $auth) {
+                    array_push($authList, $auth['auth']);
+                }
+            }
         }
 
         // 判断接口权限是否在账户拥有权限数组内
@@ -87,9 +91,9 @@ class Auth
     protected function userAuth()
     {
         $uid = Token::getCurrentUID();
-        $user = UserModel::getPersonageInfo($uid);
+        $user = UserModel::getUserByUID($uid);
 
-        return $user->toArray();
+        return $user;
 
     }
 }

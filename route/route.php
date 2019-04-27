@@ -54,8 +54,8 @@ Route::group('', function () {
         // 日志类接口
         Route::get('log/', 'api/cms.Log/getLogs');
         Route::get('log/users', 'api/cms.Log/getUsers');
-        Route::get('log/search','api/cms.Log/getUserLogs');
-    });
+        Route::get('log/search', 'api/cms.Log/getUserLogs');
+    })->middleware(['Auth']);
 
     Route::group('v1', function () {
         // 查询所有图书
@@ -70,6 +70,7 @@ Route::group('', function () {
         Route::put('book/:bid', 'api/v1.Book/update');
         // 删除图书
         Route::delete('book/:bid', 'api/v1.Book/delete');
-    });
+    })
+        ->middleware(['Auth']);;
 })->allowCrossDomain();
 

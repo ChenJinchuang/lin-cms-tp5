@@ -2,7 +2,7 @@
 
 namespace app\http\middleware;
 
-use app\lib\auth\Auth as Permission ;
+use app\lib\auth\Auth as Permission;
 use app\lib\exception\token\ForbiddenException;
 
 class Auth
@@ -18,11 +18,17 @@ class Auth
      */
     public function handle($request, \Closure $next)
     {
+
+        if ($request->path() === 'cms/user/login') {
+            return $next($request);
+        }
+
         $auth = (new Permission($request))->check();
 
         if (!$auth) {
             throw new ForbiddenException();
         }
+
         return $next($request);
     }
 }
