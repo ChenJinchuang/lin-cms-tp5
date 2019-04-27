@@ -55,7 +55,8 @@ Route::group('', function () {
         Route::get('log/', 'api/cms.Log/getLogs');
         Route::get('log/users', 'api/cms.Log/getUsers');
         Route::get('log/search', 'api/cms.Log/getUserLogs');
-    })->middleware(['Auth']);
+    })
+        ->middleware(['Auth']);
 
     Route::group('v1', function () {
         // 查询所有图书
