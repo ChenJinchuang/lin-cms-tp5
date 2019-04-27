@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "71662cba68992fa872289dcea786bff1",
+    "content-hash": "709161e637a79c0a23efc362c5441d99",
     "packages": [
         {
             "name": "firebase/php-jwt",
@@ -54,16 +54,16 @@
         },
         {
             "name": "topthink/framework",
-            "version": "v5.1.34",
+            "version": "v5.1.35",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "7c8cd1ea2bd4683a6ef46af415334260c6e2cc15"
+                "reference": "c53c0c6132022a87e8ee9c4109939eaf9a8a7adb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/framework/zipball/7c8cd1ea2bd4683a6ef46af415334260c6e2cc15",
-                "reference": "7c8cd1ea2bd4683a6ef46af415334260c6e2cc15",
+                "url": "https://api.github.com/repos/top-think/framework/zipball/c53c0c6132022a87e8ee9c4109939eaf9a8a7adb",
+                "reference": "c53c0c6132022a87e8ee9c4109939eaf9a8a7adb",
                 "shasum": ""
             },
             "require": {
@@ -101,7 +101,7 @@
                 "orm",
                 "thinkphp"
             ],
-            "time": "2019-01-30T06:38:38+00:00"
+            "time": "2019-03-03T00:44:44+00:00"
         },
         {
             "name": "topthink/think-installer",
@@ -143,6 +143,45 @@
                 }
             ],
             "time": "2018-05-11T06:45:42+00:00"
+        },
+        {
+            "name": "topthink/think-migration",
+            "version": "v2.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/top-think/think-migration.git",
+                "reference": "70c89850ca29c2eab988c7c3475d1d5331901bb8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/top-think/think-migration/zipball/70c89850ca29c2eab988c7c3475d1d5331901bb8",
+                "reference": "70c89850ca29c2eab988c7c3475d1d5331901bb8",
+                "shasum": ""
+            },
+            "require": {
+                "topthink/framework": "5.1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Phinx\\": "phinx/src/Phinx",
+                    "think\\migration\\": "src"
+                },
+                "files": [
+                    "src/config.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "yunwuxin",
+                    "email": "448901948@qq.com"
+                }
+            ],
+            "time": "2017-12-31T16:32:22+00:00"
         }
     ],
     "packages-dev": [],

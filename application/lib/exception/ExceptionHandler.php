@@ -55,7 +55,8 @@ class ExceptionHandler extends Handle
         Log::init([
             'type' => 'File',
             'path' => '',
-            'level' => ['error']
+            'level' => ['error'],
+            'close' => false
         ]);
         Log::record($e->getMessage(), 'error');
 
