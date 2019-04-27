@@ -18,6 +18,7 @@ class AuthMap
         $this->authList = [
             'app\api\controller\cms\User',
             'app\api\controller\cms\Admin',
+            'app\api\controller\v1\Book',
         ];
     }
 
