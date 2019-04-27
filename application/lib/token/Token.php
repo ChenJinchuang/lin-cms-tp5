@@ -38,7 +38,7 @@ class Token
             'iat' => time(), //什么时候签发的
             'exp' => time() + 7200, //过期时间
             'uid' => $user->id,
-            'nickname'=>$user->nickname
+            'nickname' => $user->nickname
         ];
         $token = JWT::encode($payload, $key);
         return $token;
@@ -51,7 +51,8 @@ class Token
         $payload = [
             'iss' => 'lin-cms-tp5', //签发者
             'iat' => time(), //什么时候签发的
-            'uid' => $user->id
+            'uid' => $user->id,
+            'nickname' => $user->nickname
         ];
         $token = JWT::encode($payload, $key);
         return $token;
@@ -99,11 +100,11 @@ class Token
         try {
             $jwt = (array)JWT::decode($token, $secretKey, ['HS256']);
         } catch (\Firebase\JWT\SignatureInvalidException $e) {  //签名不正确
-            throw new Exception($e->getMessage());
+            throw new TokenException(['msg' => '令牌签名不正确']);
         } catch (\Firebase\JWT\BeforeValidException $e) {  // 签名在某个时间点之后才能用
-            throw new Exception($e->getMessage());
+            throw new TokenException(['msg' => '令牌尚未生效']);
         } catch (\Firebase\JWT\ExpiredException $e) {  // token过期
-            throw new Exception($e->getMessage());
+            throw new TokenException(['msg' => '令牌已过期，请退出后重新登录']);
         } catch (Exception $e) {  //其他错误
             throw new Exception($e->getMessage());
         }
