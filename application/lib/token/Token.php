@@ -25,9 +25,22 @@ class Token
         ];
     }
 
-    private static function refreshToken()
+    /**
+     * @return array
+     * @throws Exception
+     * @throws TokenException
+     */
+    public static function refreshToken()
     {
+        $user = [
+            'id' => self::getCurrentUID(),
+            'nickname' => self::getCurrentName()
+        ];
+        $accessToken = self::createAccessToken($user);
 
+        return [
+            'access_token' => $accessToken,
+        ];
     }
 
     private static function createAccessToken($user)
@@ -37,8 +50,8 @@ class Token
             'iss' => 'lin-cms-tp5', //签发者
             'iat' => time(), //什么时候签发的
             'exp' => time() + 7200, //过期时间
-            'uid' => $user->id,
-            'nickname' => $user->nickname
+            'uid' => $user['id'],
+            'nickname' => $user['nickname']
         ];
         $token = JWT::encode($payload, $key);
         return $token;
@@ -51,8 +64,8 @@ class Token
         $payload = [
             'iss' => 'lin-cms-tp5', //签发者
             'iat' => time(), //什么时候签发的
-            'uid' => $user->id,
-            'nickname' => $user->nickname
+            'uid' => $user['id'],
+            'nickname' => $user['nickname']
         ];
         $token = JWT::encode($payload, $key);
         return $token;

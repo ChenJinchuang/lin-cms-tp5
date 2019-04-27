@@ -60,4 +60,16 @@ class User extends Controller
         return writeJson(201, '', '用户创建成功');
     }
 
+
+    /**
+     * @return array
+     * @throws \app\lib\exception\token\TokenException
+     * @throws \think\Exception
+     */
+    public function refresh()
+    {
+        $result = Token::refreshToken();
+        return $result;
+    }
+
 }

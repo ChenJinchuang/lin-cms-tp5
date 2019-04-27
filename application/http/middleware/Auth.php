@@ -19,7 +19,7 @@ class Auth
     public function handle($request, \Closure $next)
     {
 
-        if ($request->path() === 'cms/user/login') {
+        if ($request->path() === 'cms/user/login' || $request->path() === 'cms/user/refresh') {
             return $next($request);
         }
 

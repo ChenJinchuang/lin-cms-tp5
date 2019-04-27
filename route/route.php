@@ -18,6 +18,7 @@ Route::group('', function () {
             // 登陆接口
             Route::post('login', 'api/cms.User/login')
                 ->middleware('Login');
+            Route::get('refresh', 'api/cms.User/refresh');
             // 查询自己拥有的权限
             Route::get('auths', 'api/cms.User/getAllowedApis');
             // 注册一个用户
