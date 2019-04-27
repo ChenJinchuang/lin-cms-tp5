@@ -54,28 +54,44 @@ function split_modules($auths, $key = 'module')
         return [];
     }
 
-    $items = array();
+    $items = [];
+    $result = [];
+//    foreach ($auths as $key => $value) {
+//        if (empty($items)) {
+//            $item = [
+//                $value['module'] => [$value]
+//            ];
+//            $items[] = $item;
+//        } else {
+//            foreach ($items as $k => $v) {
+//                if (array_key_exists($value['module'], $v)) {
+//                    $items[$k][$value['module']][] = $value;
+//                } else {
+//                    $item = [
+//                        $value['module'] => [$value]
+//                    ];
+//                    $items[] = $item;
+//                }
+//            }
+//        }
+//    }
+//    array_filter($auths, function ($item) use ($items) {
+//        var_dump($item['module']);
+//    });
     foreach ($auths as $key => $value) {
-        if (empty($items)) {
-            $item = [
-                $value['module'] => [$value]
-            ];
-            $items[] = $item;
+        if (isset($items[$value['module']])) {
+            $items[$value['module']][] = $value;
         } else {
-            foreach ($items as $k => $v) {
-                if (array_key_exists($value['module'], $v)) {
-                    $items[$k][$value['module']][] = $value;
-                } else {
-                    $item = [
-                        $value['module'] => [$value]
-                    ];
-                    $items[] = $item;
-                }
-            }
+            $items[$value['module']] = [$value];
         }
     }
-
-    return $items;
+    foreach ($items as $key => $value) {
+        $item = [
+            $key => $value
+        ];
+        array_push($result, $item);
+    }
+    return $result;
 
 }
 
