@@ -15,6 +15,7 @@ class Log
 {
 
     /**
+     * @auth('查询所有日志','日志')
      * @param Request $request
      * @return array
      * @throws \think\exception\DbException
@@ -28,6 +29,7 @@ class Log
     }
 
     /**
+     * @auth('搜索日志','日志')
      * @param Request $request
      * @return array
      * @throws \think\exception\DbException
@@ -37,10 +39,13 @@ class Log
         $params = $request->get();
 
         $result = LogModel::getLogs($params);
-        if ($result)
         return $result;
     }
 
+    /**
+     * @auth('查询日志记录的用户','日志')
+     * @return array
+     */
     public function getUsers()
     {
         $users = LogModel::column('user_name');

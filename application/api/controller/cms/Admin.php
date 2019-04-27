@@ -65,7 +65,7 @@ class Admin
     }
 
     /**
-     * @auth('更新用户信息','管理员')
+     * @auth('管理员更新用户信息','管理员')
      * @param Request $request
      * @return \think\response\Json
      * @throws \app\lib\exception\user\UserException
