@@ -104,7 +104,7 @@ class Token
         } catch (\Firebase\JWT\BeforeValidException $e) {  // 签名在某个时间点之后才能用
             throw new TokenException(['msg' => '令牌尚未生效']);
         } catch (\Firebase\JWT\ExpiredException $e) {  // token过期
-            throw new TokenException(['msg' => '令牌已过期，请退出后重新登录']);
+            throw new TokenException(['msg' => '令牌已过期，刷新浏览器重试']);
         } catch (Exception $e) {  //其他错误
             throw new Exception($e->getMessage());
         }
