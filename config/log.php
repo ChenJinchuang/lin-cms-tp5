@@ -27,4 +27,5 @@ return [
     'max_files'   => 0,
     // 是否关闭日志写入
     'close'       => true,
+
 ];

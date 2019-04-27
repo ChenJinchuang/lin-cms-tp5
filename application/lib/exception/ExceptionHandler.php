@@ -58,6 +58,7 @@ class ExceptionHandler extends Handle
             'level' => ['error'],
             'close' => false
         ]);
+
         Log::record($e->getMessage(), 'error');
 
     }
