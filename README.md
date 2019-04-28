@@ -156,4 +156,16 @@ You can exit with `CTRL-C`
 
 打开浏览器，访问``http://127.0.0.1:8000``，你会看到一个欢迎界面，至此，Lin-cms-tp5部署完毕，可搭配lin-cms-vue使用了。
 
+## 讨论交流
+微信公众号搜索：林间有风
+<br>
+<img class="QR-img" src="http://imglf6.nosdn0.126.net/img/YUdIR2E3ME5weEdlNThuRmI4TFh3UWhiNmladWVoaTlXUXpicEFPa1F6czFNYkdmcWRIbGRRPT0.jpg?imageView&thumbnail=500x0&quality=96&stripmeta=0&type=jpg" width="150" height="150" style='text-align:left;width: 100px;height: 100px'>
 
+QQ群搜索：Lin CMS 或 814597236
+
+<img src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/qqgroup.jpg" width="150" height="205" >
+
+
+## 下个版本开发计划
+
+- [ ] 注解路由
