@@ -52,10 +52,29 @@ Lin 的服务端框架是基于 ThinkPHP5.1的，所以如果你比较熟悉Thin
 git clone https://github.com/ChenJinchuang/lin-cms-tp5.git
 ```
 
-> 执行完毕后会生成lin-cms-tp5目录，接着执行以下命令
+> 执行完毕后会生成lin-cms-tp5目录
+
+### 安装依赖包
+
+执行命令前请确保你已经安装了composer工具
 
 ```bash
 cd lin-cms-tp5
 
 composer install
+```
+
+### 数据库配置
+
+Lin 需要你自己在 MySQL 中新建一个数据库，名字由你自己决定。例如，新建一个名为 lin-cms 的数据库。接着，我们需要在工程中进行一项简单的配置。使用编辑器打开 Lin 工程根目录下``/config/database.php``，找到如下配置项：
+
+```php
+// 服务器地址
+   'hostname'        => '',
+// 数据库名
+   'database'        => 'lin-cms',
+// 用户名
+   'username'        => 'root',
+// 密码
+   'password'        => '',
 ```
