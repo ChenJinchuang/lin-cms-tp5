@@ -147,6 +147,6 @@ ThinkPHP Development server is started On <http://127.0.0.1:8000/>
 You can exit with `CTRL-C`
 ```
 
-打开浏览器，访问http://127.0.0.1:8000，你会看到一个欢迎界面，至此，Lin-cms-tp5部署完毕，可搭配lin-cms-vue使用了。
+打开浏览器，访问``http://127.0.0.1:8000``，你会看到一个欢迎界面，至此，Lin-cms-tp5部署完毕，可搭配lin-cms-vue使用了。
 
 
