@@ -48,9 +48,9 @@ Lin 的服务端框架是基于 ThinkPHP5.1的，所以如果你比较熟悉Thin
 
 ### 获取工程项目
 
-``
+```bash
 git clone https://github.com/ChenJinchuang/lin-cms-tp5.git
-``
+```
 
 > 执行完毕后会生成lin-cms-tp5目录，接着执行以下命令
 
