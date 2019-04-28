@@ -64,7 +64,7 @@ git clone https://github.com/ChenJinchuang/lin-cms-tp5.git
 ```bash
 cd lin-cms-tp5
 
-composer install
+composer install  // 如果长时间卡光标,请更换composer源或者挂梯子
 ```
 
 ## 数据库配置
