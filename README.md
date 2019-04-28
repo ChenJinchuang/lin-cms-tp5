@@ -70,11 +70,11 @@ Lin 需要你自己在 MySQL 中新建一个数据库，名字由你自己决定
 
 ```php
 // 服务器地址
-   'hostname'        => '',
+  'hostname'        => '',
 // 数据库名
-   'database'        => 'lin-cms',
+  'database'        => 'lin-cms',
 // 用户名
-   'username'        => 'root',
+  'username'        => 'root',
 // 密码
-   'password'        => '',
+  'password'        => '',
 ```
