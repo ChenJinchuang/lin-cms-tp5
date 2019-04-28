@@ -77,9 +77,63 @@ Lin 需要你自己在 MySQL 中新建一个数据库，名字由你自己决定
   'username'        => 'root',
 // 密码
   'password'        => '',
+  
+  //省略后面一堆的配置项
 ```
 
 ### 请务必根据自己的实际情况修改此配置项。
 
 ### 数据迁移
+
+> 如果你已经部署过官方团队其他版本的Lin-cms后端，并且已经生成了相应基础数据库表和测试数据，可以略过此步
+
+配置完数据库连接信息后，我们需要为数据库导入一些核心的基础表，在项目根目录中，打开命令行，输入：
+
+```bash
+php think migrate:run
+```
+
+当你看到如下提示时，说明迁移脚本已经启动并在数据库中生成了相应的基础数据库表
+
+```php
+== 20190427113042 User: migrating
+== 20190427113042 User: migrated 0.0540s
+
+== 20190427125215 Book: migrating
+== 20190427125215 Book: migrated 0.0593s
+
+== 20190427125517 Image: migrating
+== 20190427125517 Image: migrated 0.0557s
+
+== 20190427125655 LinAuth: migrating
+== 20190427125655 LinAuth: migrated 0.0721s
+
+== 20190427125839 LinEvent: migrating
+== 20190427125839 LinEvent: migrated 0.0648s
+
+== 20190427125956 LinGroup: migrating
+== 20190427125956 LinGroup: migrated 0.0656s
+
+== 20190427130203 LinLog: migrating
+== 20190427130203 LinLog: migrated 0.0558s
+
+== 20190427130637 LinPoem: migrating
+== 20190427130637 LinPoem: migrated 0.0879s
+
+All Done. Took 0.6255s
+```
+
+迁移成功后我们需要为lin_user表插入一条数据，作为超级管理员，方便你后续在前端项目中登陆和测试，继续在命令行中输入：
+```bash
+php think seed:run
+```
+当你看到如下提示时，说明迁移脚本已经启动并在lin_user表中创建了一条记录
+
+```php
+== UserSeeder: seeding
+== UserSeeder: seeded 0.0351s
+
+All Done. Took 0.0385s
+```
+
 
