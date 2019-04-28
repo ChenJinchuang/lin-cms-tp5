@@ -2,6 +2,8 @@
 
 namespace app\api\controller\cms;
 
+use app\api\validate\user\LoginForm;
+use app\api\validate\user\RegisterForm;
 use app\lib\token\Token;
 use think\Controller;
 use think\Request;
@@ -17,6 +19,8 @@ class User extends Controller
      */
     public function login(Request $request)
     {
+        (new LoginForm())->goCheck();
+
         $params = $request->post();
         $user = UserModel::verify($params['nickname'], $params['password']);
 
@@ -52,6 +56,8 @@ class User extends Controller
      */
     public function register(Request $request)
     {
+        (new RegisterForm())->goCheck();
+
         $params = $request->post();
         UserModel::createUser($params);
 
