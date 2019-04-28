@@ -81,7 +81,7 @@ Lin 需要你自己在 MySQL 中新建一个数据库，名字由你自己决定
   //省略后面一堆的配置项
 ```
 
-### 请务必根据自己的实际情况修改此配置项。
+**请务必根据自己的实际情况修改此配置项**
 
 ### 数据迁移
 
@@ -135,5 +135,18 @@ php think seed:run
 
 All Done. Took 0.0385s
 ```
+
+### 运行
+
+如果前面的过程一切顺利，项目所需的准备工作就已经全部完成，这时候你就可以试着让工程运行起来了。在工程的根目录打开命令行，输入：
+```bash
+php think run //启动thinkPHP内置的Web服务器
+```
+```php
+ThinkPHP Development server is started On <http://127.0.0.1:8000/>
+You can exit with `CTRL-C`
+```
+
+打开浏览器，访问http://127.0.0.1:8000，你会看到一个欢迎界面，至此，Lin-cms-tp5部署完毕，可搭配lin-cms-vue使用了。
 
 
