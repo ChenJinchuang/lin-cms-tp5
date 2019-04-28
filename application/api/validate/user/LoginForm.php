@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: 沁塵
- * Date: 2019/2/19
- * Time: 12:06
+ * Date: 2019/4/28
+ * Time: 21:38
  */
 
 namespace app\api\validate\user;
@@ -11,11 +11,11 @@ namespace app\api\validate\user;
 
 use app\api\validate\BaseValidate;
 
-class LoginValidate extends BaseValidate
+class LoginForm extends BaseValidate
 {
     protected $rule = [
-        'nickname' => 'require|isNotEmpty',
-        'password' => 'require|isNotEmpty'
+        'nickname' => 'require',
+        'password' => 'require',
     ];
 
     protected $message = [
