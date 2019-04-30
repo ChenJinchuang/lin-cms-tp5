@@ -5,9 +5,9 @@ namespace app\api\controller\cms;
 use app\api\validate\user\LoginForm;
 use app\api\validate\user\RegisterForm;
 use app\lib\token\Token;
+use LinCmsTp5\model\LinUser;
 use think\Controller;
 use think\Request;
-use app\api\model\User as UserModel;
 
 class User extends Controller
 {
@@ -20,11 +20,11 @@ class User extends Controller
     public function login(Request $request)
     {
         (new LoginForm())->goCheck();
-
         $params = $request->post();
-        $user = UserModel::verify($params['nickname'], $params['password']);
 
+        $user = LinUser::verify($params['nickname'], $params['password']);
         $result = Token::getToken($user);
+
         logger('登陆领取了令牌', $user['id'], $user['nickname']);
 
         return $result;
@@ -39,7 +39,7 @@ class User extends Controller
     public function getAllowedApis()
     {
         $uid = Token::getCurrentUID();
-        $result = UserModel::getUserByUID($uid);
+        $result = LinUser::getUserByUID($uid);
         return $result;
     }
 
@@ -48,7 +48,6 @@ class User extends Controller
      * @param Request $request
      * @return \think\response\Json
      * @throws \app\lib\exception\token\TokenException
-     * @throws \app\lib\exception\user\UserException
      * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
@@ -59,7 +58,7 @@ class User extends Controller
         (new RegisterForm())->goCheck();
 
         $params = $request->post();
-        UserModel::createUser($params);
+        LinUser::createUser($params);
 
         logger('创建了一个用户');
 

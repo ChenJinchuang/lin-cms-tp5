@@ -8,8 +8,8 @@
 
 namespace app\lib\auth;
 
-use app\api\model\User as UserModel;
 use app\lib\token\Token;
+use LinCmsTp5\model\LinUser;
 
 class Auth
 {
@@ -51,7 +51,7 @@ class Auth
         }
 
         // 判断接口权限是否在账户拥有权限数组内
-        if (in_array($actionAuth, $authList)) {
+        if (in_array(key($actionAuth), $authList)) {
             return true;
         } else {
             return false;
@@ -91,7 +91,7 @@ class Auth
     protected function userAuth()
     {
         $uid = Token::getCurrentUID();
-        $user = UserModel::getUserByUID($uid);
+        $user = LinUser::getUserByUID($uid);
 
         return $user;
 

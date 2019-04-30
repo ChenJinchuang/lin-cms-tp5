@@ -8,12 +8,11 @@
 
 namespace app\api\controller\cms;
 
-use app\api\model\Auth as AuthModel;
-use app\api\model\Auth;
-use app\api\model\Group as GroupModel;
-use app\api\model\User as UserModel;
 use app\lib\auth\AuthMap;
-use app\lib\exception\group\GroupException;
+use LinCmsTp5\exception\group\GroupException;
+use LinCmsTp5\model\LinAuth;
+use LinCmsTp5\model\LinGroup;
+use LinCmsTp5\model\LinUser;
 use think\Request;
 
 class Admin
@@ -29,7 +28,7 @@ class Admin
     {
         $params = $request->get();
 
-        $result = UserModel::getAdminUsers($params);
+        $result = LinUser::getAdminUsers($params);
         return $result;
     }
 
@@ -37,13 +36,13 @@ class Admin
      * @auth('修改用户密码','管理员')
      * @param Request $request
      * @return \think\response\Json
-     * @throws \app\lib\exception\user\UserException
+     * @throws \LinCmsTp5\exception\user\UserException
      */
     public function changeUserPassword(Request $request)
     {
         $params = $request->param();
 
-        UserModel::resetPassword($params);
+        LinUser::resetPassword($params);
         return writeJson(201, '', '密码修改成功');
 
     }
@@ -52,13 +51,12 @@ class Admin
      * @auth('删除用户','管理员')
      * @param $uid
      * @return \think\response\Json
-     * @throws \app\lib\exception\token\TokenException
-     * @throws \app\lib\exception\user\UserException
+     * @throws \LinCmsTp5\exception\user\UserException
      * @throws \think\Exception
      */
     public function deleteUser($uid)
     {
-        UserModel::deleteUser($uid);
+        LinUser::deleteUser($uid);
 
         logger('删除了用户id为' . $uid . '的用户');
         return writeJson(201, '', '操作成功');
@@ -68,7 +66,7 @@ class Admin
      * @auth('管理员更新用户信息','管理员')
      * @param Request $request
      * @return \think\response\Json
-     * @throws \app\lib\exception\user\UserException
+     * @throws \LinCmsTp5\exception\user\UserException
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
@@ -76,7 +74,7 @@ class Admin
     public function updateUser(Request $request)
     {
         $params = $request->param();
-        UserModel::updateUser($params);
+        LinUser::updateUser($params);
         return writeJson(201, '', '操作成功');
 
     }
@@ -87,7 +85,7 @@ class Admin
      */
     public function getGroupAll()
     {
-        $result = GroupModel::all();
+        $result = LinGroup::all();
 
         return $result;
     }
@@ -96,14 +94,14 @@ class Admin
      * @auth('查询一个权限组及其权限','管理员')
      * @param $id
      * @return array|\PDOStatement|string|\think\Model
-     * @throws \app\lib\exception\group\GroupException
+     * @throws \LinCmsTp5\exception\group\GroupException
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
     public function getGroup($id)
     {
-        $result = GroupModel::getGroupByID($id);
+        $result = LinGroup::getGroupByID($id);
 
         return $result;
     }
@@ -113,12 +111,11 @@ class Admin
      * @auth('删除一个权限组','管理员')
      * @param $id
      * @return \think\response\Json
-     * @throws \app\lib\exception\token\TokenException
      * @throws \think\Exception
      */
     public function deleteGroup($id)
     {
-        GroupModel::destroy($id);
+        LinGroup::destroy($id);
 
         logger('删除了权限组id为' . $id . '的权限组');
         return writeJson(201, '', '删除分组成功');
@@ -128,8 +125,8 @@ class Admin
      * @auth('新建权限组','管理员')
      * @param Request $request
      * @return \think\response\Json
+     * @throws \LinCmsTp5\exception\group\GroupException
      * @throws \ReflectionException
-     * @throws \app\lib\exception\group\GroupException
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
@@ -137,7 +134,7 @@ class Admin
     public function createGroup(Request $request)
     {
         $params = $request->post();
-        GroupModel::createGroup($params);
+        LinGroup::createGroup($params);
 
         return writeJson(201, '', '成功');
     }
@@ -153,7 +150,7 @@ class Admin
     {
         $params = $request->put();
 
-        $group = GroupModel::find($id);
+        $group = LinGroup::find($id);
         if (!$group) {
             throw new GroupException([
                 'code' => 404,
@@ -188,7 +185,7 @@ class Admin
     public function removeAuths(Request $request)
     {
         $params = $request->post();
-        AuthModel::where(['group_id' => $params['group_id'], 'auth' => $params['auths']])
+        LinAuth::where(['group_id' => $params['group_id'], 'auth' => $params['auths']])
             ->delete();
 
         return writeJson(201, '', '删除权限成功');
@@ -208,7 +205,7 @@ class Admin
     public function dispatchAuths(Request $request)
     {
         $params = $request->post();
-        Auth::dispatchAuths($params);
+        LinAuth::dispatchAuths($params);
         logger('修改了id为' . $params['group_id'] . '的权限');
 
         return writeJson(201, '', '添加权限成功');
