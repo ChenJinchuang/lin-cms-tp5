@@ -51,7 +51,7 @@ class Auth
         }
 
         // 判断接口权限是否在账户拥有权限数组内
-        if (in_array($actionAuth, $authList)) {
+        if (in_array(key($actionAuth), $authList)) {
             return true;
         } else {
             return false;
