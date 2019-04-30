@@ -11,11 +11,11 @@
 
 // 应用公共文件
 use app\lib\auth\AuthMap;
+use LinCmsTp5\exception\logger\LoggerException;
 use think\facade\Request;
 use think\facade\Response;
 use app\lib\token\Token;
-use app\lib\exception\logger\LoggerException;
-use app\api\model\Log as LogModel;
+use LinCmsTp5\model\LinLog;
 
 /**
  * @param $code
@@ -56,28 +56,7 @@ function split_modules($auths, $key = 'module')
 
     $items = [];
     $result = [];
-//    foreach ($auths as $key => $value) {
-//        if (empty($items)) {
-//            $item = [
-//                $value['module'] => [$value]
-//            ];
-//            $items[] = $item;
-//        } else {
-//            foreach ($items as $k => $v) {
-//                if (array_key_exists($value['module'], $v)) {
-//                    $items[$k][$value['module']][] = $value;
-//                } else {
-//                    $item = [
-//                        $value['module'] => [$value]
-//                    ];
-//                    $items[] = $item;
-//                }
-//            }
-//        }
-//    }
-//    array_filter($auths, function ($item) use ($items) {
-//        var_dump($item['module']);
-//    });
+
     foreach ($auths as $key => $value) {
         if (isset($items[$value['module']])) {
             $items[$value['module']][] = $value;
@@ -119,7 +98,6 @@ function findAuthModule($auth)
  * @param string $message
  * @param string $uid
  * @param string $nickname
- * @throws LoggerException
  * @throws \app\lib\exception\token\TokenException
  * @throws \think\Exception
  */
@@ -140,5 +118,5 @@ function logger(string $message, $uid = '', $nickname = '')
         'path' => Request::path(),
         'authority' => ''
     ];
-    LogModel::create($params);
+    LinLog::create($params);
 }

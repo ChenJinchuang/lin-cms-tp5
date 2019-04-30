@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "709161e637a79c0a23efc362c5441d99",
+    "content-hash": "b6f010f17555e816b70df64d4b401dad",
     "packages": [
         {
             "name": "firebase/php-jwt",
@@ -53,17 +53,53 @@
             "time": "2017-06-27T22:17:23+00:00"
         },
         {
-            "name": "topthink/framework",
-            "version": "v5.1.35",
+            "name": "lin-cms-tp5/model-core",
+            "version": "0.0.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/top-think/framework.git",
-                "reference": "c53c0c6132022a87e8ee9c4109939eaf9a8a7adb"
+                "url": "https://github.com/ChenJinchuang/lin-cms-tp5-model-core.git",
+                "reference": "c0800ef35297aa88a6b0a25e0e23716db0d3ac07"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/framework/zipball/c53c0c6132022a87e8ee9c4109939eaf9a8a7adb",
-                "reference": "c53c0c6132022a87e8ee9c4109939eaf9a8a7adb",
+                "url": "https://api.github.com/repos/ChenJinchuang/lin-cms-tp5-model-core/zipball/c0800ef35297aa88a6b0a25e0e23716db0d3ac07",
+                "reference": "c0800ef35297aa88a6b0a25e0e23716db0d3ac07",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0",
+                "topthink/framework": "5.1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "LinCmsTp5\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "chenjinchuang",
+                    "email": "qinchenju@gmail.com"
+                }
+            ],
+            "time": "2019-04-30T07:28:24+00:00"
+        },
+        {
+            "name": "topthink/framework",
+            "version": "v5.1.36",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/top-think/framework.git",
+                "reference": "135eee67ce9ee0b07da201f743d7dd88ec431abb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/top-think/framework/zipball/135eee67ce9ee0b07da201f743d7dd88ec431abb",
+                "reference": "135eee67ce9ee0b07da201f743d7dd88ec431abb",
                 "shasum": ""
             },
             "require": {
@@ -101,7 +137,7 @@
                 "orm",
                 "thinkphp"
             ],
-            "time": "2019-03-03T00:44:44+00:00"
+            "time": "2019-04-28T08:56:58+00:00"
         },
         {
             "name": "topthink/think-installer",

@@ -8,8 +8,8 @@
 
 namespace app\lib\auth;
 
-use app\api\model\User as UserModel;
 use app\lib\token\Token;
+use LinCmsTp5\model\LinUser;
 
 class Auth
 {
@@ -91,7 +91,7 @@ class Auth
     protected function userAuth()
     {
         $uid = Token::getCurrentUID();
-        $user = UserModel::getUserByUID($uid);
+        $user = LinUser::getUserByUID($uid);
 
         return $user;
 
