@@ -9,7 +9,7 @@
 namespace app\api\validate;
 
 
-use app\lib\exception\ParameterException;
+use LinCmsTp5\exception\ParameterException;
 use think\facade\Request;
 use think\Validate;
 
