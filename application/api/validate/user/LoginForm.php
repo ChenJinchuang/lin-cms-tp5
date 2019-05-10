@@ -9,7 +9,7 @@
 namespace app\api\validate\user;
 
 
-use app\api\validate\BaseValidate;
+use LinCmsTp5\validate\BaseValidate;
 
 class LoginForm extends BaseValidate
 {

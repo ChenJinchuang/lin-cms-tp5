@@ -20,7 +20,7 @@
     "topthink/framework": "5.1.*",
     "firebase/php-jwt": "^5.0",
     "topthink/think-migration": "2.*",
-    "lin-cms-tp5": "0.0.3"
+    "lin-cms-tp5/core": "0.0.3"
   },
   "autoload": {
     "psr-4": {
