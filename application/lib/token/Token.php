@@ -102,6 +102,11 @@ class Token
     private static function getCurrentTokenVar($key)
     {
         $authorization = explode(' ', Request::header('authorization'));
+
+        if (empty($authorization)){
+            throw new TokenException('尝试获取的authorization信息不存在');
+        }
+
         $token = $authorization[1];
 
         if (!$token) {
@@ -124,7 +129,7 @@ class Token
         if (array_key_exists($key, $jwt)) {
             return $jwt[$key];
         } else {
-            throw new Exception('尝试获取的Token变量不存在');
+            throw new TokenException('尝试获取的Token变量不存在');
         }
 
     }
