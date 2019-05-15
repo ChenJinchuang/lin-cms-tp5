@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "70c090292e83a4338be2145751fb8229",
+    "content-hash": "bbfb121ef2997c4d22f3e9549ba34b1f",
     "packages": [
         {
             "name": "firebase/php-jwt",
@@ -53,17 +53,54 @@
             "time": "2017-06-27T22:17:23+00:00"
         },
         {
-            "name": "lin-cms-tp5/core",
-            "version": "0.0.3",
+            "name": "lin-cms-tp5/admin-core",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ChenJinchuang/lin-cms-tp5-core.git",
-                "reference": "a43218095d248e0d48423a8d665377b6da74b30c"
+                "url": "https://github.com/ChenJinchuang/lin-cms-tp5-admin-code.git",
+                "reference": "de2fc37999ab3e1cbb47dc43b02979080d27e69b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ChenJinchuang/lin-cms-tp5-core/zipball/a43218095d248e0d48423a8d665377b6da74b30c",
-                "reference": "a43218095d248e0d48423a8d665377b6da74b30c",
+                "url": "https://api.github.com/repos/ChenJinchuang/lin-cms-tp5-admin-code/zipball/de2fc37999ab3e1cbb47dc43b02979080d27e69b",
+                "reference": "de2fc37999ab3e1cbb47dc43b02979080d27e69b",
+                "shasum": ""
+            },
+            "require": {
+                "lin-cms-tp5/base-core": "dev-dev",
+                "php": ">=7.1.0",
+                "topthink/framework": "5.1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "LinCmsTp5\\admin\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "chenjinchuang",
+                    "email": "qinchenju@gmail.com"
+                }
+            ],
+            "time": "2019-05-15T06:23:42+00:00"
+        },
+        {
+            "name": "lin-cms-tp5/base-core",
+            "version": "dev-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ChenJinchuang/lin-cms-tp5-core.git",
+                "reference": "a03892f01714e265beb5ad3365e0450a288d0eef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ChenJinchuang/lin-cms-tp5-core/zipball/a03892f01714e265beb5ad3365e0450a288d0eef",
+                "reference": "a03892f01714e265beb5ad3365e0450a288d0eef",
                 "shasum": ""
             },
             "require": {
@@ -86,7 +123,7 @@
                     "email": "qinchenju@gmail.com"
                 }
             ],
-            "time": "2019-05-10T13:42:14+00:00"
+            "time": "2019-05-15T07:16:08+00:00"
         },
         {
             "name": "topthink/framework",
@@ -223,7 +260,10 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "lin-cms-tp5/base-core": 20,
+        "lin-cms-tp5/admin-core": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

@@ -9,7 +9,7 @@
 namespace app\lib\auth;
 
 use app\lib\token\Token;
-use LinCmsTp5\model\LinUser;
+use LinCmsTp5\admin\model\LinUser;
 
 class Auth
 {
