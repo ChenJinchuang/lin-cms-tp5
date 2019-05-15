@@ -11,11 +11,11 @@
 
 // 应用公共文件
 use app\lib\auth\AuthMap;
-use LinCmsTp5\exception\logger\LoggerException;
+use LinCmsTp5\admin\exception\logger\LoggerException;
 use think\facade\Request;
 use think\facade\Response;
 use app\lib\token\Token;
-use LinCmsTp5\model\LinLog;
+use LinCmsTp5\admin\model\LinLog;
 
 /**
  * @param $code

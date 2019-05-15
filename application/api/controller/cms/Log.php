@@ -8,7 +8,7 @@
 
 namespace app\api\controller\cms;
 
-use LinCmsTp5\model\LinLog;
+use LinCmsTp5\admin\model\LinLog;
 use think\Request;
 
 class Log

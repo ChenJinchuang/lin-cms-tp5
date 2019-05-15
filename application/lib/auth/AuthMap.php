@@ -83,6 +83,7 @@ class AuthMap
      */
     public function getMethodDoc($doc)
     {
+        // Todo 这里的正则纯粹是不会写暂时这样
         $pattern = "#(@[auth]+\s*[a-zA-Z0-9,]\(')(.*)(',')(.*)('\))#";
 
         preg_match_all($pattern, $doc, $matches, PREG_PATTERN_ORDER);

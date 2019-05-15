@@ -9,10 +9,10 @@
 namespace app\api\controller\cms;
 
 use app\lib\auth\AuthMap;
-use LinCmsTp5\exception\group\GroupException;
-use LinCmsTp5\model\LinAuth;
-use LinCmsTp5\model\LinGroup;
-use LinCmsTp5\model\LinUser;
+use LinCmsTp5\admin\exception\group\GroupException;
+use LinCmsTp5\admin\model\LinAuth;
+use LinCmsTp5\admin\model\LinGroup;
+use LinCmsTp5\admin\model\LinUser;
 use think\Request;
 
 class Admin

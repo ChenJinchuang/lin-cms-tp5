@@ -5,7 +5,7 @@ namespace app\api\controller\cms;
 use app\api\validate\user\LoginForm;
 use app\api\validate\user\RegisterForm;
 use app\lib\token\Token;
-use LinCmsTp5\model\LinUser;
+use LinCmsTp5\admin\model\LinUser;
 use think\Controller;
 use think\Request;
 
