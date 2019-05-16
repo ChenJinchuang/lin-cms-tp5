@@ -110,7 +110,7 @@ class Token
         $token = $authorization[1];
 
         if (!$token) {
-            throw new TokenException();
+            throw new TokenException('尝试获取的Token内容不存在');
         }
 
         $secretKey = config('secure.token_salt');
