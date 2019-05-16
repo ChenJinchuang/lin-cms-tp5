@@ -36,7 +36,7 @@ class Admin
      * @auth('修改用户密码','管理员')
      * @param Request $request
      * @return \think\response\Json
-     * @throws \LinCmsTp5\exception\user\UserException
+     * @throws \LinCmsTp5\admin\exception\user\UserException
      */
     public function changeUserPassword(Request $request)
     {
@@ -51,7 +51,6 @@ class Admin
      * @auth('删除用户','管理员')
      * @param $uid
      * @return \think\response\Json
-     * @throws \LinCmsTp5\exception\user\UserException
      * @throws \think\Exception
      */
     public function deleteUser($uid)
@@ -66,10 +65,10 @@ class Admin
      * @auth('管理员更新用户信息','管理员')
      * @param Request $request
      * @return \think\response\Json
-     * @throws \LinCmsTp5\exception\user\UserException
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
+     * @throws \LinCmsTp5\admin\exception\user\UserException
      */
     public function updateUser(Request $request)
     {
@@ -94,10 +93,10 @@ class Admin
      * @auth('查询一个权限组及其权限','管理员')
      * @param $id
      * @return array|\PDOStatement|string|\think\Model
-     * @throws \LinCmsTp5\exception\group\GroupException
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
+     * @throws GroupException
      */
     public function getGroup($id)
     {
@@ -125,11 +124,11 @@ class Admin
      * @auth('新建权限组','管理员')
      * @param Request $request
      * @return \think\response\Json
-     * @throws \LinCmsTp5\exception\group\GroupException
      * @throws \ReflectionException
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
+     * @throws GroupException
      */
     public function createGroup(Request $request)
     {
