@@ -101,16 +101,18 @@ class Token
      */
     private static function getCurrentTokenVar($key)
     {
-        $authorization = explode(' ', Request::header('authorization'));
+        $authorization = Request::header('authorization');
 
-        if (empty($authorization)){
-            throw new TokenException('尝试获取的authorization信息不存在');
+        if (!$authorization) {
+            throw new TokenException(['msg' => '请求未携带authorization信息']);
         }
 
-        $token = $authorization[1];
+        list($type, $token) = explode(' ', Request::header('authorization'));
+
+        if ($type !== 'Bearer') throw new TokenException(['msg' => '接口认证方式需为Bearer']);
 
         if (!$token) {
-            throw new TokenException('尝试获取的Token内容不存在');
+            throw new TokenException(['msg' => '尝试获取的authorization信息不存在']);
         }
 
         $secretKey = config('secure.token_salt');
@@ -129,7 +131,7 @@ class Token
         if (array_key_exists($key, $jwt)) {
             return $jwt[$key];
         } else {
-            throw new TokenException('尝试获取的Token变量不存在');
+            throw new TokenException(['msg' => '尝试获取的Token变量不存在']);
         }
 
     }
