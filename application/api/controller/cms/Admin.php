@@ -15,12 +15,21 @@ use LinCmsTp5\admin\model\LinGroup;
 use LinCmsTp5\admin\model\LinUser;
 use think\Request;
 
+/**
+ * Class Admin
+ * @middleware('Auth','linRouteParam')
+ * @package app\api\controller\cms
+ */
 class Admin
 {
 
     /**
      * @auth('查询所有用户','管理员')
+     * @route('cms/admin/users','get')
      * @param Request $request
+     * @param('group_id','分组ID','>:0')
+     * @param('page','分页','require')
+     * @param('count','条数','require')
      * @return array
      * @throws \think\exception\DbException
      */
@@ -34,9 +43,12 @@ class Admin
 
     /**
      * @auth('修改用户密码','管理员')
+     * @route('cms/admin/password/:uid','put')
      * @param Request $request
+     * @param('uid','用户ID','require|>:0')
+     * @param('new_password','新密码','require')
      * @return \think\response\Json
-     * @throws \LinCmsTp5\exception\user\UserException
+     * @throws \LinCmsTp5\admin\exception\user\UserException
      */
     public function changeUserPassword(Request $request)
     {
@@ -49,7 +61,9 @@ class Admin
 
     /**
      * @auth('删除用户','管理员')
+     * @route('cms/admin/:uid','delete')
      * @param $uid
+     * @param('uid','用户ID','require|>:0')
      * @return \think\response\Json
      * @throws \LinCmsTp5\exception\user\UserException
      * @throws \think\Exception
@@ -64,9 +78,12 @@ class Admin
 
     /**
      * @auth('管理员更新用户信息','管理员')
-     * @param Request $request
+     * @route('cms/admin/:uid','put')
+     * @param $request
+     * @param('uid','用户ID','require|>:0')
+     * @param('email','邮箱','require|email')
      * @return \think\response\Json
-     * @throws \LinCmsTp5\exception\user\UserException
+     * @throws \LinCmsTp5\admin\exception\user\UserException
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
@@ -81,6 +98,7 @@ class Admin
 
     /**
      * @auth('查询所有权限组','管理员')
+     * @route('cms/admin/group/all','get')
      * @return mixed
      */
     public function getGroupAll()
@@ -92,9 +110,11 @@ class Admin
 
     /**
      * @auth('查询一个权限组及其权限','管理员')
+     * @route('cms/admin/group/:id','get')
      * @param $id
+     * @param('id','分组ID','require|>:0')
      * @return array|\PDOStatement|string|\think\Model
-     * @throws \LinCmsTp5\exception\group\GroupException
+     * @throws \LinCmsTp5\admin\exception\group\GroupException
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
@@ -109,7 +129,9 @@ class Admin
 
     /**
      * @auth('删除一个权限组','管理员')
+     * @route('cms/admin/group/:id','delete')
      * @param $id
+     * @param('id','分组ID','require|>:0')
      * @return \think\response\Json
      * @throws \think\Exception
      */
@@ -123,9 +145,12 @@ class Admin
 
     /**
      * @auth('新建权限组','管理员')
+     * @route('cms/admin/group','post')
      * @param Request $request
+     * @param('name','分组名称','require')
+     * @param('auths','分组权限','require')
      * @return \think\response\Json
-     * @throws \LinCmsTp5\exception\group\GroupException
+     * @throws \LinCmsTp5\admin\exception\group\GroupException
      * @throws \ReflectionException
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
@@ -141,8 +166,12 @@ class Admin
 
     /**
      * @auth('更新一个权限组','管理员')
+     * @route('cms/admin/group/:id','put')
      * @param Request $request
      * @param $id
+     * @param('id','分组ID','require|min:1')
+     * @param('name','分组名称','require')
+     * @param('auths','分组权限','require')
      * @return \think\response\Json
      * @throws \think\Exception
      */
@@ -166,6 +195,7 @@ class Admin
 
     /**
      * @auth('查询所有可分配的权限','管理员')
+     * @route('cms/admin/authority','get')
      * @throws \ReflectionException
      */
     public function authority()
@@ -177,7 +207,10 @@ class Admin
 
     /**
      * @auth('删除多个权限','管理员')
+     * @route('cms/admin/remove','post')
      * @param Request $request
+     * @param('group_id','分组ID','require|min:1')
+     * @param('auths','分组权限','require')
      * @return \think\response\Json
      * @throws \think\Exception
      * @throws \think\exception\PDOException
@@ -193,7 +226,10 @@ class Admin
 
     /**
      * @auth('分配多个权限','管理员')
+     * @route('cms/admin/dispatch/patch','post')
      * @param Request $request
+     * @param('group_id','分组ID','require|min:1')
+     * @param('auths','分组权限','require')
      * @return \think\response\Json
      * @throws \ReflectionException
      * @throws \app\lib\exception\token\TokenException

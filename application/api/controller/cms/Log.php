@@ -11,12 +11,21 @@ namespace app\api\controller\cms;
 use LinCmsTp5\admin\model\LinLog;
 use think\Request;
 
+/**
+ * Class Log
+ * @route('')
+ * @middleware('Auth','linRouteParam')
+ * @package app\api\controller\cms
+ */
 class Log
 {
 
     /**
      * @auth('查询所有日志','日志')
+     * @route('/cms/log/','get')
      * @param Request $request
+     * @param('page','分页','require')
+     * @param('count','条数','require')
      * @return array
      * @throws \think\exception\DbException
      */
@@ -30,7 +39,10 @@ class Log
 
     /**
      * @auth('搜索日志','日志')
+     * @route('/cms/log/search','get')
      * @param Request $request
+     * @param('page','分页','require')
+     * @param('count','条数','require')
      * @return array
      * @throws \think\exception\DbException
      */
@@ -44,6 +56,7 @@ class Log
 
     /**
      * @auth('查询日志记录的用户','日志')
+     * @route('/cms/log/users','get')
      * @return array
      */
     public function getUsers()

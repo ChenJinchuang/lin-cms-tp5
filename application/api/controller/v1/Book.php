@@ -11,11 +11,19 @@ namespace app\api\controller\v1;
 use app\api\model\Book as BookModel;
 use think\Request;
 
+/**
+ * Class Book
+ * @route('v1/book')
+ * @middleware('Auth','linRouteParam')
+ * @package app\api\controller\v1
+ */
 class Book
 {
     /**
      * 查询指定bid的图书
-     * @param $bid
+     * @route(':bid','get')
+     * @param Request $bid
+     * @param('bid','bid的图书','require')
      * @return mixed
      */
     public function getBook($bid)
@@ -26,6 +34,7 @@ class Book
 
     /**
      * 查询所有图书
+     * @route('','get')
      * @return mixed
      */
     public function getBooks()
@@ -44,7 +53,11 @@ class Book
 
     /**
      * 新建图书
+     * @route('','post')
      * @param Request $request
+     * @param('title','图书名称','require')
+     * @param('author','图书作者','require')
+     * @param('image','图书img','require')
      * @return \think\response\Json
      */
     public function create(Request $request)
@@ -54,6 +67,17 @@ class Book
         return writeJson(201, '', '新建图书成功');
     }
 
+
+    /**
+     * 更新图书
+     * @route(':id','put')
+     * @param Request $request
+     * @param('id','图书ID','require')
+     * @param('title','图书名称','require')
+     * @param('author','图书作者','require')
+     * @param('image','图书img','require')
+     * @return \think\response\Json
+     */
     public function update(Request $request)
     {
         $params = $request->put();
@@ -64,7 +88,8 @@ class Book
 
     /**
      * @auth('删除图书','图书')
-     * @param $bid
+     * @route(':bid','delete')
+     * @param('id','图书ID','require')
      * @return \think\response\Json
      * @throws \app\lib\exception\token\TokenException
      * @throws \think\Exception

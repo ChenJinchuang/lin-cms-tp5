@@ -9,11 +9,19 @@ use LinCmsTp5\admin\model\LinUser;
 use think\Controller;
 use think\Request;
 
+/**
+ * Class User LinCms用户类
+ * @route('cms/user')
+ * @middleware('Auth','linRouteParam')
+ * @package app\api\controller\cms
+ */
 class User extends Controller
 {
     /**
      * 账户登陆
+     * @route('login','post')
      * @param Request $request
+     * @validate('LoginForm')
      * @return array
      * @throws \think\Exception
      */
@@ -33,6 +41,7 @@ class User extends Controller
 
     /**
      * 查询自己拥有的权限
+     * @route('auths','get')
      * @throws \app\lib\exception\token\TokenException
      * @throws \think\Exception
      */
@@ -45,7 +54,9 @@ class User extends Controller
 
     /**
      * @auth('创建用户','管理员')
+     * @route('register','post')
      * @param Request $request
+     * @param('app\api\validate\user\RegisterForm')
      * @return \think\response\Json
      * @throws \app\lib\exception\token\TokenException
      * @throws \think\Exception
@@ -67,6 +78,8 @@ class User extends Controller
 
 
     /**
+     * 刷新token
+     * @route('refresh','post')
      * @return array
      * @throws \app\lib\exception\token\TokenException
      * @throws \think\Exception
