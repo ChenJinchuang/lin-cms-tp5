@@ -7,6 +7,7 @@ use app\api\validate\user\RegisterForm;
 use app\lib\token\Token;
 use LinCmsTp5\admin\model\LinUser;
 use think\Controller;
+use think\facade\Hook;
 use think\Request;
 
 class User extends Controller
@@ -25,7 +26,9 @@ class User extends Controller
         $user = LinUser::verify($params['nickname'], $params['password']);
         $result = Token::getToken($user);
 
-        logger('登陆领取了令牌', $user['id'], $user['nickname']);
+        Hook::listen('logger', '登陆领取了令牌');
+
+//        logger();
 
         return $result;
     }
