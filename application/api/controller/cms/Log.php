@@ -14,7 +14,7 @@ use think\Request;
 /**
  * Class Log
  * @route('')
- * @middleware('Auth','linRouteParam')
+ * @middleware('Auth','LinRoute')
  * @package app\api\controller\cms
  */
 class Log

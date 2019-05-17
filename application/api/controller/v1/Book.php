@@ -14,7 +14,7 @@ use think\Request;
 /**
  * Class Book
  * @route('v1/book')
- * @middleware('Auth','linRouteParam')
+ * @middleware('Auth','LinRoute')
  * @package app\api\controller\v1
  */
 class Book

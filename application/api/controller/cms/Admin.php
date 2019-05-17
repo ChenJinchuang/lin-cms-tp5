@@ -17,7 +17,7 @@ use think\Request;
 
 /**
  * Class Admin
- * @middleware('Auth','linRouteParam')
+ * @middleware('Auth','LinRoute')
  * @package app\api\controller\cms
  */
 class Admin

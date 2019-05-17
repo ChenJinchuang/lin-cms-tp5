@@ -12,7 +12,7 @@ use think\Request;
 /**
  * Class User LinCms用户类
  * @route('cms/user')
- * @middleware('Auth','linRouteParam')
+ * @middleware('Auth','LinRoute')
  * @package app\api\controller\cms
  */
 class User extends Controller
