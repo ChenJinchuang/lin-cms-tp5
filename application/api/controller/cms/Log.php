@@ -18,6 +18,7 @@ class Log
      * @auth('查询所有日志','日志')
      * @param Request $request
      * @return array
+     * @throws \LinCmsTp5\admin\exception\logger\LoggerException
      * @throws \think\exception\DbException
      */
     public function getLogs(Request $request)
@@ -32,6 +33,7 @@ class Log
      * @auth('搜索日志','日志')
      * @param Request $request
      * @return array
+     * @throws \LinCmsTp5\admin\exception\logger\LoggerException
      * @throws \think\exception\DbException
      */
     public function getUserLogs(Request $request)

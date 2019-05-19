@@ -12,6 +12,7 @@
 // 应用公共文件
 use app\lib\auth\AuthMap;
 use LinCmsTp5\admin\exception\logger\LoggerException;
+use LinCmsTp5\exception\ParameterException;
 use think\facade\Request;
 use think\facade\Response;
 use app\lib\token\Token;
@@ -119,4 +120,22 @@ function logger(string $message, $uid = '', $nickname = '')
         'authority' => ''
     ];
     LinLog::create($params);
+}
+
+/**
+ * @return array
+ * @throws ParameterException
+ */
+function paginate()
+{
+    $count = intval(Request::get('count'));
+    $start = intval(Request::get('page'));
+
+    $count = $count >= 15 ? 15 : $count;
+
+    $start = $start * $count;
+
+    if ($start < 0 || $count < 0) throw new ParameterException();
+
+    return [$start, $count];
 }
