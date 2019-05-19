@@ -13,6 +13,7 @@ use LinCmsTp5\admin\exception\group\GroupException;
 use LinCmsTp5\admin\model\LinAuth;
 use LinCmsTp5\admin\model\LinGroup;
 use LinCmsTp5\admin\model\LinUser;
+use think\facade\Hook;
 use think\Request;
 
 class Admin
@@ -44,7 +45,6 @@ class Admin
 
         LinUser::resetPassword($params);
         return writeJson(201, '', '密码修改成功');
-
     }
 
     /**
@@ -56,8 +56,8 @@ class Admin
     public function deleteUser($uid)
     {
         LinUser::deleteUser($uid);
-
-        logger('删除了用户id为' . $uid . '的用户');
+//        logger('删除了用户id为' . $uid . '的用户');
+        Hook::listen('logger', '删除了用户id为' . $uid . '的用户');
         return writeJson(201, '', '操作成功');
     }
 
@@ -74,8 +74,8 @@ class Admin
     {
         $params = $request->param();
         LinUser::updateUser($params);
-        return writeJson(201, '', '操作成功');
 
+        return writeJson(201, '', '操作成功');
     }
 
     /**
@@ -110,13 +110,12 @@ class Admin
      * @auth('删除一个权限组','管理员')
      * @param $id
      * @return \think\response\Json
-     * @throws \think\Exception
      */
     public function deleteGroup($id)
     {
         LinGroup::destroy($id);
-
-        logger('删除了权限组id为' . $id . '的权限组');
+//        logger('删除了权限组id为' . $id . '的权限组');
+        Hook::listen('logger', '删除了权限组id为' . $id . '的权限组');
         return writeJson(201, '', '删除分组成功');
     }
 
@@ -133,8 +132,8 @@ class Admin
     public function createGroup(Request $request)
     {
         $params = $request->post();
-        LinGroup::createGroup($params);
 
+        LinGroup::createGroup($params);
         return writeJson(201, '', '成功');
     }
 
@@ -158,9 +157,7 @@ class Admin
             ]);
         }
         $group->save($params);
-
         return writeJson(201, '', '更新分组成功');
-
     }
 
     /**
@@ -184,9 +181,9 @@ class Admin
     public function removeAuths(Request $request)
     {
         $params = $request->post();
+
         LinAuth::where(['group_id' => $params['group_id'], 'auth' => $params['auths']])
             ->delete();
-
         return writeJson(201, '', '删除权限成功');
     }
 
@@ -194,9 +191,6 @@ class Admin
      * @auth('分配多个权限','管理员')
      * @param Request $request
      * @return \think\response\Json
-     * @throws \ReflectionException
-     * @throws \app\lib\exception\token\TokenException
-     * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
@@ -204,9 +198,10 @@ class Admin
     public function dispatchAuths(Request $request)
     {
         $params = $request->post();
-        LinAuth::dispatchAuths($params);
-        logger('修改了id为' . $params['group_id'] . '的权限');
 
+        LinAuth::dispatchAuths($params);
+//        logger('修改了id为' . $params['group_id'] . '的权限');
+        Hook::listen('logger', '修改了id为' . $params['group_id'] . '的权限');
         return writeJson(201, '', '添加权限成功');
     }
 }

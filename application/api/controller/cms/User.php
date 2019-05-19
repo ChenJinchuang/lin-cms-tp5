@@ -26,7 +26,7 @@ class User extends Controller
         $user = LinUser::verify($params['nickname'], $params['password']);
         $result = Token::getToken($user);
 
-        Hook::listen('logger', array('uid'=>$user->id,'nickname'=>$user->nickname));
+        Hook::listen('logger', array('uid' => $user->id, 'nickname' => $user->nickname, 'msg' => '登陆成功获取了令牌'));
 
         return $result;
     }
@@ -60,7 +60,6 @@ class User extends Controller
         $params = $request->post();
         LinUser::createUser($params);
 
-//        logger('创建了一个用户');
         Hook::listen('logger', '创建了一个用户');
 
         return writeJson(201, '', '用户创建成功');

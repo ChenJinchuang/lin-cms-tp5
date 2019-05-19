@@ -18,31 +18,30 @@ use think\facade\Response;
 class Logger
 {
     /**
-     * @param $message
+     * @param $params
      * @throws LoggerException
      * @throws \app\lib\exception\token\TokenException
      * @throws \think\Exception
      */
-    public function run($message)
+    public function run($params)
     {
 
         // 行为逻辑
-        if (empty($message)) {
+        if (empty($params)) {
             throw new LoggerException([
                 'msg' => '日志信息不能为空'
             ]);
         }
 
-
-        if (is_array($message)) {
-            $uid = $message['uid'];
-            $nickname = $message['nickname'];
+        if (is_array($params)) {
+            list('uid' => $uid, 'nickname' => $nickname, 'msg' => $message) = $params;
         } else {
             $uid = Token::getCurrentUID();
             $nickname = Token::getCurrentName();
+            $message = $params;
         }
 
-        $params = [
+        $data = [
             'message' => $nickname . $message,
             'user_id' => $uid,
             'user_name' => $nickname,
@@ -51,6 +50,8 @@ class Logger
             'path' => Request::path(),
             'authority' => ''
         ];
-        LinLog::create($params);
+
+        LinLog::create($data);
+
     }
 }

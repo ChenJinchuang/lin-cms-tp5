@@ -11,11 +11,8 @@
 
 // 应用公共文件
 use app\lib\auth\AuthMap;
-use LinCmsTp5\admin\exception\logger\LoggerException;
+use LinCmsTp5\exception\ParameterException;
 use think\facade\Request;
-use think\facade\Response;
-use app\lib\token\Token;
-use LinCmsTp5\admin\model\LinLog;
 
 /**
  * @param $code
@@ -94,29 +91,47 @@ function findAuthModule($auth)
     }
 }
 
-/**
- * @param string $message
- * @param string $uid
- * @param string $nickname
- * @throws \app\lib\exception\token\TokenException
- * @throws \think\Exception
- */
-function logger(string $message, $uid = '', $nickname = '')
-{
-    if ($message === '') {
-        throw new LoggerException([
-            'msg' => '日志信息不能为空'
-        ]);
-    }
+///**
+// * @param string $message
+// * @param string $uid
+// * @param string $nickname
+// * @throws \app\lib\exception\token\TokenException
+// * @throws \think\Exception
+// */
+//function logger(string $message, $uid = '', $nickname = '')
+//{
+//    if ($message === '') {
+//        throw new LoggerException([
+//            'msg' => '日志信息不能为空'
+//        ]);
+//    }
+//
+//    $params = [
+//        'message' => $nickname ? $nickname . $message : Token::getCurrentName() . $message,
+//        'user_id' => $uid ? $uid : Token::getCurrentUID(),
+//        'user_name' => $nickname ? $nickname : Token::getCurrentName(),
+//        'status_code' => Response::getCode(),
+//        'method' => Request::method(),
+//        'path' => Request::path(),
+//        'authority' => ''
+//    ];
+//    LinLog::create($params);
+//}
 
-    $params = [
-        'message' => $nickname ? $nickname . $message : Token::getCurrentName() . $message,
-        'user_id' => $uid ? $uid : Token::getCurrentUID(),
-        'user_name' => $nickname ? $nickname : Token::getCurrentName(),
-        'status_code' => Response::getCode(),
-        'method' => Request::method(),
-        'path' => Request::path(),
-        'authority' => ''
-    ];
-    LinLog::create($params);
+/**
+ * @return array
+ * @throws ParameterException
+ */
+function paginate()
+{
+    $count = intval(Request::get('count'));
+    $start = intval(Request::get('page'));
+
+    $count = $count >= 15 ? 15 : $count;
+
+    $start = $start * $count;
+
+    if ($start < 0 || $count < 0) throw new ParameterException();
+
+    return [$start, $count];
 }

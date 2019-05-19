@@ -9,6 +9,7 @@
 namespace app\api\controller\v1;
 
 use app\api\model\Book as BookModel;
+use think\facade\Hook;
 use think\Request;
 
 class Book
@@ -66,14 +67,12 @@ class Book
      * @auth('删除图书','图书')
      * @param $bid
      * @return \think\response\Json
-     * @throws \app\lib\exception\token\TokenException
-     * @throws \think\Exception
      */
     public function delete($bid)
     {
         BookModel::destroy($bid);
-
-        logger('删除了id为' . $bid . '的图书');
+//        logger('删除了id为' . $bid . '的图书');
+        Hook::listen('logger', '删除了id为' . $bid . '的图书');
         return writeJson(201, '', '删除图书成功');
     }
 }
