@@ -107,7 +107,7 @@ class Token
             throw new TokenException(['msg' => '请求未携带authorization信息']);
         }
 
-        list($type, $token) = explode(' ', Request::header('authorization'));
+        list($type, $token) = explode(' ', $authorization);
 
         if ($type !== 'Bearer') throw new TokenException(['msg' => '接口认证方式需为Bearer']);
 
