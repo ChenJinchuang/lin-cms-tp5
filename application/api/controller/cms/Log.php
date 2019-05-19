@@ -19,6 +19,8 @@ class Log
      * @param Request $request
      * @return array
      * @throws \LinCmsTp5\admin\exception\logger\LoggerException
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
     public function getLogs(Request $request)
@@ -34,6 +36,8 @@ class Log
      * @param Request $request
      * @return array
      * @throws \LinCmsTp5\admin\exception\logger\LoggerException
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
     public function getUserLogs(Request $request)

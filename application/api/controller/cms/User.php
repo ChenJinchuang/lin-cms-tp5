@@ -7,6 +7,7 @@ use app\api\validate\user\RegisterForm;
 use app\lib\token\Token;
 use LinCmsTp5\admin\model\LinUser;
 use think\Controller;
+use think\facade\Hook;
 use think\Request;
 
 class User extends Controller
@@ -25,7 +26,7 @@ class User extends Controller
         $user = LinUser::verify($params['nickname'], $params['password']);
         $result = Token::getToken($user);
 
-        logger('登陆领取了令牌', $user['id'], $user['nickname']);
+        Hook::listen('logger', array('uid' => $user->id, 'nickname' => $user->nickname, 'msg' => '登陆成功获取了令牌'));
 
         return $result;
     }
@@ -47,7 +48,6 @@ class User extends Controller
      * @auth('创建用户','管理员')
      * @param Request $request
      * @return \think\response\Json
-     * @throws \app\lib\exception\token\TokenException
      * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
@@ -60,7 +60,7 @@ class User extends Controller
         $params = $request->post();
         LinUser::createUser($params);
 
-        logger('创建了一个用户');
+        Hook::listen('logger', '创建了一个用户');
 
         return writeJson(201, '', '用户创建成功');
     }

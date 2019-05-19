@@ -26,4 +26,8 @@ return [
     'log_write' => [],
     // 应用结束
     'app_end' => [],
+    // api日志
+    'logger' => [
+        'app\\api\\behavior\\Logger',
+    ]
 ];
