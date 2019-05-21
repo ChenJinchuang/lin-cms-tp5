@@ -103,6 +103,7 @@ Lin 需要你自己在 MySQL 中新建一个数据库，名字由你自己决定
 ## 数据迁移
 
 > 如果你已经部署过官方团队其他版本的Lin-cms后端，并且已经生成了相应基础数据库表，可以略过数据迁移章节，但必须将原来lin_user表中super记录删除(密码加密方式不一致，会导致登陆失败)，并在根目录下运行
+
 ```bash
 php think seed:run  //这条命令会为你在lin_user表中插入一条记录,即super
 ```
@@ -144,9 +145,11 @@ All Done. Took 0.6255s
 ```
 
 迁移成功后我们需要为lin_user表插入一条数据，作为超级管理员，方便你后续在前端项目中登陆和测试，继续在命令行中输入：
+
 ```bash
 php think seed:run
 ```
+
 当你看到如下提示时，说明迁移脚本已经启动并在lin_user表中创建了一条记录
 
 ```php
@@ -159,9 +162,11 @@ All Done. Took 0.0385s
 ## 运行
 
 如果前面的过程一切顺利，项目所需的准备工作就已经全部完成，这时候你就可以试着让工程运行起来了。在工程的根目录打开命令行，输入：
+
 ```bash
 php think run //启动thinkPHP内置的Web服务器
 ```
+
 ```php
 ThinkPHP Development server is started On <http://127.0.0.1:8000/>
 You can exit with `CTRL-C`
@@ -173,7 +178,24 @@ You can exit with `CTRL-C`
 
 > 参数说明见[注释验证器文档](https://github.com/china-wangyu/lin-cms-tp-validate-core)
 
-### `第一步:` 需要在中间件配置`config/middleware.php`中引入 `LinCmsTp\Param::class`（默认安装）
+### `第1步` 需要在`composer.json`引入`lin-cms-tp/validate-core`扩展（默认配置）
+
+```json5
+ // ....省略其它配置
+ "require": {
+     // ....省略其它扩展配置
+    "lin-cms-tp/validate-core": "dev-master"
+  },
+ 
+```
+
+### `第2步` 需要在命令行更新`composer.json`引入的`lin-cms-tp/validate-core`扩展
+
+```bash
+composer update
+```
+
+### `第3步:` 需要在中间件配置`config/middleware.php`中引入 `LinCmsTp\Param::class`（默认安装）
 
 ```php
 return [
@@ -183,18 +205,17 @@ return [
 ];
 ```
 
-### `第二步:` 需要在路由配置`route/route.php`中引入验证器中间件`ReflexValidate`
+### `第4步:` 需要在路由配置`route/route.php`中引入验证器中间件`ReflexValidate`
 
 ```php
 use think\facade\Route;
 
 Route::group('', function () {
-    // 省略一堆路由配置
-    });
+   # .... 省略一大堆路由配置
 })->middleware(['Auth','ReflexValidate'])->allowCrossDomain();
 ```
 
-### `第三步:` 需要在方法注释中新增验证器`@validate('验证模型名称')`
+### `第5步:` 需要在方法注释中新增验证器`@validate('验证模型名称')`
 
 > 本注释验证器模式有两种方式，如有不在`application\api\validate目录`的
 > 验证器,请使用全命名空间，
@@ -211,15 +232,8 @@ Route::group('', function () {
      */
     public function login(Request $request)
     {
-//        (new LoginForm())->goCheck();  # 开启注释验证器以后，本行可以去掉，这里做更替说明
-        $params = $request->post();
-
-        $user = LinUser::verify($params['nickname'], $params['password']);
-        $result = Token::getToken($user);
-
-        Hook::listen('logger', array('uid' => $user->id, 'nickname' => $user->nickname, 'msg' => '登陆成功获取了令牌'));
-
-        return $result;
+        # (new LoginForm())->goCheck();  # 开启注释验证器以后，本行可以去掉，这里做更替说明
+        # 省略代码逻辑
     }
 ```
 
