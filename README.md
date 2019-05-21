@@ -173,7 +173,24 @@ You can exit with `CTRL-C`
 
 > 参数说明见[注释验证器文档](https://github.com/china-wangyu/lin-cms-tp-validate-core)
 
-### `第一步:` 需要在中间件配置`config/middleware.php`中引入 `LinCmsTp\Param::class`（默认安装）
+### `第1步` 需要在`composer.json`引入`lin-cms-tp/validate-core`扩展（默认配置）
+
+```json5
+ // ....省略其它配置
+ "require": {
+     // ....省略其它扩展配置
+    "lin-cms-tp/validate-core": "dev-master"
+  },
+ 
+```
+
+### `第2步` 需要在命令行更新`composer.json`引入的`lin-cms-tp/validate-core`扩展
+
+```bash
+composer update
+```
+
+### `第3步:` 需要在中间件配置`config/middleware.php`中引入 `LinCmsTp\Param::class`（默认安装）
 
 ```php
 return [
@@ -183,18 +200,17 @@ return [
 ];
 ```
 
-### `第二步:` 需要在路由配置`route/route.php`中引入验证器中间件`ReflexValidate`
+### `第4步:` 需要在路由配置`route/route.php`中引入验证器中间件`ReflexValidate`
 
 ```php
 use think\facade\Route;
 
 Route::group('', function () {
-    // 省略一堆路由配置
-    });
+   # .... 省略一大堆路由配置
 })->middleware(['Auth','ReflexValidate'])->allowCrossDomain();
 ```
 
-### `第三步:` 需要在方法注释中新增验证器`@validate('验证模型名称')`
+### `第5步:` 需要在方法注释中新增验证器`@validate('验证模型名称')`
 
 > 本注释验证器模式有两种方式，如有不在`application\api\validate目录`的
 > 验证器,请使用全命名空间，
