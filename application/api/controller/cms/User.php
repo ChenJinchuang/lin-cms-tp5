@@ -2,8 +2,8 @@
 
 namespace app\api\controller\cms;
 
-use app\api\validate\user\LoginForm;
-use app\api\validate\user\RegisterForm;
+//use app\api\validate\user\LoginForm;  # 开启注释验证器以后，本行可以去掉，这里做更替说明
+//use app\api\validate\user\RegisterForm; # 开启注释验证器以后，本行可以去掉，这里做更替说明
 use app\lib\token\Token;
 use LinCmsTp5\admin\model\LinUser;
 use think\Controller;
@@ -15,12 +15,13 @@ class User extends Controller
     /**
      * 账户登陆
      * @param Request $request
+     * @validate('LoginForm')
      * @return array
      * @throws \think\Exception
      */
     public function login(Request $request)
     {
-        (new LoginForm())->goCheck();
+//        (new LoginForm())->goCheck();  # 开启注释验证器以后，本行可以去掉，这里做更替说明
         $params = $request->post();
 
         $user = LinUser::verify($params['nickname'], $params['password']);
@@ -47,6 +48,7 @@ class User extends Controller
     /**
      * @auth('创建用户','管理员')
      * @param Request $request
+     * @validate('RegisterForm')
      * @return \think\response\Json
      * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
@@ -55,7 +57,7 @@ class User extends Controller
      */
     public function register(Request $request)
     {
-        (new RegisterForm())->goCheck();
+//        (new RegisterForm())->goCheck(); # 开启注释验证器以后，本行可以去掉，这里做更替说明
 
         $params = $request->post();
         LinUser::createUser($params);
