@@ -56,7 +56,6 @@ class Admin
     public function deleteUser($uid)
     {
         LinUser::deleteUser($uid);
-//        logger('删除了用户id为' . $uid . '的用户');
         Hook::listen('logger', '删除了用户id为' . $uid . '的用户');
         return writeJson(201, '', '操作成功');
     }
@@ -114,7 +113,6 @@ class Admin
     public function deleteGroup($id)
     {
         LinGroup::destroy($id);
-//        logger('删除了权限组id为' . $id . '的权限组');
         Hook::listen('logger', '删除了权限组id为' . $id . '的权限组');
         return writeJson(201, '', '删除分组成功');
     }
@@ -200,7 +198,6 @@ class Admin
         $params = $request->post();
 
         LinAuth::dispatchAuths($params);
-//        logger('修改了id为' . $params['group_id'] . '的权限');
         Hook::listen('logger', '修改了id为' . $params['group_id'] . '的权限');
         return writeJson(201, '', '添加权限成功');
     }

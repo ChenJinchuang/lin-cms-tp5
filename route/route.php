@@ -71,5 +71,5 @@ Route::group('', function () {
         // 删除图书
         Route::delete('book/:bid', 'api/v1.Book/delete');
     });
-})->middleware(['Auth'])->allowCrossDomain();
+})->middleware(['Auth','ReflexValidate'])->allowCrossDomain();
 
