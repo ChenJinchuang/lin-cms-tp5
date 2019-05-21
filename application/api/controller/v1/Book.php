@@ -71,7 +71,6 @@ class Book
     public function delete($bid)
     {
         BookModel::destroy($bid);
-//        logger('删除了id为' . $bid . '的图书');
         Hook::listen('logger', '删除了id为' . $bid . '的图书');
         return writeJson(201, '', '删除图书成功');
     }
