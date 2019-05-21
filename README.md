@@ -169,6 +169,117 @@ You can exit with `CTRL-C`
 
 打开浏览器，访问``http://127.0.0.1:8000``，你会看到一个欢迎界面，至此，Lin-cms-tp5部署完毕，可搭配[lin-cms-vue](https://github.com/TaleLin/lin-cms-vue)使用了。
 
+## 注释验证器模式
+
+> 参数说明见[注释验证器文档](https://github.com/china-wangyu/lin-cms-tp-validate-core)
+
+### `第一步:` 需要在中间件配置`config/middleware.php`中引入 `LinCmsTp\Param::class`（默认安装）
+
+```php
+return [
+    // 默认中间件命名空间
+    'default_namespace' => 'app\\http\\middleware\\',
+    'ReflexValidate' => LinCmsTp\Param::class  // 开启注释验证器，需要的中间件配置，请勿胡乱关闭
+];
+```
+
+### `第二步:` 需要在路由配置`route/route.php`中引入验证器中间件`ReflexValidate`
+
+```php
+use think\facade\Route;
+
+Route::group('', function () {
+    Route::group('cms', function () {
+        // 账户相关接口分组
+        Route::group('user', function () {
+            // 登陆接口
+            Route::post('login', 'api/cms.User/login');
+            // 刷新令牌
+            Route::get('refresh', 'api/cms.User/refresh');
+            // 查询自己拥有的权限
+            Route::get('auths', 'api/cms.User/getAllowedApis');
+            // 注册一个用户
+            Route::post('register', 'api/cms.User/register');
+        });
+        // 管理类接口
+        Route::group('admin', function () {
+            // 查询所有权限组
+            Route::get('group/all', 'api/cms.Admin/getGroupAll');
+            // 查询一个权限组及其权限
+            Route::get('group/:id', 'api/cms.Admin/getGroup');
+            // 删除一个权限组
+            Route::delete('group/:id', 'api/cms.Admin/deleteGroup');
+            // 更新一个权限组
+            Route::put('group/:id', 'api/cms.Admin/updateGroup');
+            // 新建权限组
+            Route::post('group', 'api/cms.Admin/createGroup');
+            // 查询所有可分配的权限
+            Route::get('authority', 'api/cms.Admin/authority');
+            // 删除多个权限
+            Route::post('remove', 'api/cms.Admin/removeAuths');
+            // 添加多个权限
+            Route::post('/dispatch/patch', 'api/cms.Admin/dispatchAuths');
+            // 查询所有用户
+            Route::get('users', 'api/cms.Admin/getAdminUsers');
+            // 修改用户密码
+            Route::put('password/:uid', 'api/cms.Admin/changeUserPassword');
+            // 删除用户
+            Route::delete(':uid', 'api/cms.Admin/deleteUser');
+            // 更新用户信息
+            Route::put(':uid', 'api/cms.Admin/updateUser');
+
+        });
+        // 日志类接口
+        Route::get('log/', 'api/cms.Log/getLogs');
+        Route::get('log/users', 'api/cms.Log/getUsers');
+        Route::get('log/search', 'api/cms.Log/getUserLogs');
+    });
+    Route::group('v1', function () {
+        // 查询所有图书
+        Route::get('book/', 'api/v1.Book/getBooks');
+        // 新建图书
+        Route::post('book/', 'api/v1.Book/create');
+        // 查询指定bid的图书
+        Route::get('book/:bid', 'api/v1.Book/getBook');
+        // 搜索图书
+
+        // 更新图书
+        Route::put('book/:bid', 'api/v1.Book/update');
+        // 删除图书
+        Route::delete('book/:bid', 'api/v1.Book/delete');
+    });
+})->middleware(['Auth','ReflexValidate'])->allowCrossDomain();
+```
+
+### `第三步:` 需要在方法注释中新增验证器`@validate('验证模型名称')`
+
+> 本注释验证器模式有两种方式，如有不在`application\api\validate目录`的
+> 验证器,请使用全命名空间，
+
+>例如：`@validate('\app\common\validate\验证模 型名称')`
+
+```php
+    /**
+     * 账户登陆
+     * @param Request $request
+     * @validate('LoginForm')
+     * @return array
+     * @throws \think\Exception
+     */
+    public function login(Request $request)
+    {
+//        (new LoginForm())->goCheck();  # 开启注释验证器以后，本行可以去掉，这里做更替说明
+        $params = $request->post();
+
+        $user = LinUser::verify($params['nickname'], $params['password']);
+        $result = Token::getToken($user);
+
+        Hook::listen('logger', array('uid' => $user->id, 'nickname' => $user->nickname, 'msg' => '登陆成功获取了令牌'));
+
+        return $result;
+    }
+```
+
 ## 讨论交流
 微信公众号搜索：林间有风
 <br>
@@ -183,3 +294,4 @@ QQ群搜索：Lin CMS 或 814597236
 
 - [ ] 注解路由
 - [x] 模型封装
+- [x] 注解验证器
