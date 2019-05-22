@@ -30,12 +30,14 @@ class Auth
      */
     public function check()
     {
+        // 接口的权限内容
+        $actionAuth = $this->actionAuth();
+
         // 如果这个接口没有添加权限标识，直接通过
         if (empty($actionAuth)) {
             return true;
         }
-        // 接口的权限内容
-        $actionAuth = $this->actionAuth();
+        
         // 账户信息，包含所拥有的权限列表
         $userAuth = $this->userAuth();
         //账户属于超级管理员，直接通过
