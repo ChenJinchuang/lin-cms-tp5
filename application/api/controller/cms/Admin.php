@@ -20,7 +20,7 @@ class Admin
 {
 
     /**
-     * @auth('查询所有用户','管理员')
+     * @auth('查询所有用户','管理员','hidden')
      * @param Request $request
      * @return array
      * @throws \think\exception\DbException
@@ -34,7 +34,7 @@ class Admin
     }
 
     /**
-     * @auth('修改用户密码','管理员')
+     * @auth('修改用户密码','管理员','hidden')
      * @param Request $request
      * @return \think\response\Json
      * @throws \LinCmsTp5\admin\exception\user\UserException
@@ -48,7 +48,7 @@ class Admin
     }
 
     /**
-     * @auth('删除用户','管理员')
+     * @auth('删除用户','管理员','hidden')
      * @param $uid
      * @return \think\response\Json
      * @throws \think\Exception
@@ -61,7 +61,7 @@ class Admin
     }
 
     /**
-     * @auth('管理员更新用户信息','管理员')
+     * @auth('管理员更新用户信息','管理员','hidden')
      * @param Request $request
      * @return \think\response\Json
      * @throws \think\db\exception\DataNotFoundException
@@ -78,7 +78,7 @@ class Admin
     }
 
     /**
-     * @auth('查询所有权限组','管理员')
+     * @auth('查询所有权限组','管理员','hidden')
      * @return mixed
      */
     public function getGroupAll()
@@ -89,7 +89,7 @@ class Admin
     }
 
     /**
-     * @auth('查询一个权限组及其权限','管理员')
+     * @auth('查询一个权限组及其权限','管理员','hidden')
      * @param $id
      * @return array|\PDOStatement|string|\think\Model
      * @throws \think\db\exception\DataNotFoundException
@@ -106,7 +106,7 @@ class Admin
 
 
     /**
-     * @auth('删除一个权限组','管理员')
+     * @auth('删除一个权限组','管理员','hidden')
      * @param $id
      * @return \think\response\Json
      */
@@ -118,7 +118,7 @@ class Admin
     }
 
     /**
-     * @auth('新建权限组','管理员')
+     * @auth('新建权限组','管理员','hidden')
      * @param Request $request
      * @return \think\response\Json
      * @throws \ReflectionException
@@ -136,7 +136,7 @@ class Admin
     }
 
     /**
-     * @auth('更新一个权限组','管理员')
+     * @auth('更新一个权限组','管理员','hidden')
      * @param Request $request
      * @param $id
      * @return \think\response\Json
@@ -159,7 +159,7 @@ class Admin
     }
 
     /**
-     * @auth('查询所有可分配的权限','管理员')
+     * @auth('查询所有可分配的权限','管理员','hidden')
      * @throws \ReflectionException
      */
     public function authority()
@@ -170,7 +170,7 @@ class Admin
     }
 
     /**
-     * @auth('删除多个权限','管理员')
+     * @auth('删除多个权限','管理员','hidden')
      * @param Request $request
      * @return \think\response\Json
      * @throws \think\Exception
@@ -186,7 +186,7 @@ class Admin
     }
 
     /**
-     * @auth('分配多个权限','管理员')
+     * @auth('分配多个权限','管理员','hidden')
      * @param Request $request
      * @return \think\response\Json
      * @throws \think\db\exception\DataNotFoundException

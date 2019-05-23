@@ -28,6 +28,7 @@ class AuthMap
     /**
      * @return array
      * @throws \ReflectionException
+     * @throws \WangYu\exception\ReflexException
      */
     public function run()
     {
@@ -38,6 +39,7 @@ class AuthMap
     /**
      * @return array
      * @throws \ReflectionException
+     * @throws \WangYu\exception\ReflexException
      */
     private function geAuthList()
     {
@@ -63,15 +65,17 @@ class AuthMap
      * @param $class
      * @param $array
      * @return array
+     * @throws \WangYu\exception\ReflexException
      */
     private function getMethodsDoc($class, $array)
     {
         $data = [];
         foreach ($array as $value) {
-            $doc = $class->getMethod($value->name)->getDocComment();
-            $methodDoc = $this->getMethodDoc($doc);
-            if (!empty($methodDoc)) {
-                array_push($data, $methodDoc);
+            $reflex = new Reflex($class, $value->name);
+            $authAnnotation = $reflex->get('auth');
+            $authAnnotation = $this->handleAnnotation($authAnnotation);
+            if (!empty($authAnnotation)) {
+                array_push($data, $authAnnotation);
             }
         }
         // 根据权限所属模型对注解内容数组进行分组
@@ -95,10 +99,21 @@ class AuthMap
         }
 
         // TODO 管理员模块不加载到输出的权限图中，临时处理
-        return $matches[4][0] != '管理员' ? array(
-                $matches[4][0] => array($matches[2][0] => [''])
-            ) : [];
+        return [
+            $matches[4][0] => array($matches[2][0] => [''])
+        ];
 
+    }
+
+    public function handleAnnotation(array $annotation)
+    {
+        if (empty($annotation[0]) || in_array('hidden', $annotation[0])) {
+            return [];
+        }
+
+        return [
+            $annotation[0][1] => [$annotation[0][0] => ['']]
+        ];
     }
 
     private function authListGroup($authList)
