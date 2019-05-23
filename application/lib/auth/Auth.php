@@ -15,7 +15,6 @@ class Auth
 {
     protected $request;
 
-//
     public function __construct($request)
     {
         $this->request = $request;
@@ -32,35 +31,27 @@ class Auth
     {
         // 接口的权限内容
         $actionAuth = $this->actionAuth();
-
         // 如果这个接口没有添加权限标识，直接通过
-        if (empty($actionAuth)) {
-            return true;
-        }
-        
+        if (empty($actionAuth)) return true;
         // 账户信息，包含所拥有的权限列表
         $userAuth = $this->userAuth();
-        //账户属于超级管理员，直接通过
-        if ($userAuth['admin'] == 2) {
-            return true;
-        }
 
+        //账户属于超级管理员，直接通过
+        if ($userAuth['admin'] == 2) return true;
         // 生成账户拥有权限的数组
-        $authList = [];
-        foreach ($userAuth['auths'] as $key => $value) {
-            foreach ($value as $k => $v) {
-                foreach ($v as $auth) {
-                    array_push($authList, $auth['auth']);
-                }
-            }
-        }
+//        $authList = [];
+//        foreach ($userAuth['auths'] as $key => $value) {
+//            foreach ($value as $k => $v) {
+//                foreach ($v as $auth) {
+//                    array_push($authList, $auth['auth']);
+//                }
+//            }
+//        }
+        $authList = $this->recursiveForeach($userAuth['auths']);
 
         // 判断接口权限是否在账户拥有权限数组内
-        if (in_array(key($actionAuth), $authList)) {
-            return true;
-        } else {
-            return false;
-        }
+        $allowable = in_array(key($actionAuth), $authList) ? true : false;
+        return $allowable;
 
     }
 
@@ -100,5 +91,21 @@ class Auth
 
         return $user;
 
+    }
+
+    protected function recursiveForeach($array)
+    {
+        static $authList = [];
+        if (!is_array($array)) {
+            return $authList;
+        }
+        foreach ($array as $key => $val) {
+            if (is_array($val) && !isset($val['auth'])) {
+                $this->recursiveForeach($val);
+            } else {
+                array_push($authList, $val['auth']);
+            }
+        }
+        return $authList;
     }
 }
