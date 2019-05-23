@@ -20,6 +20,7 @@ class Admin
 {
 
     /**
+     * 配置hidden后，这个权限信息不会挂载到权限图，获取所有可分配的权限时不会显示这个权限
      * @auth('查询所有用户','管理员','hidden')
      * @param Request $request
      * @return array
@@ -160,7 +161,9 @@ class Admin
 
     /**
      * @auth('查询所有可分配的权限','管理员','hidden')
+     * @return array
      * @throws \ReflectionException
+     * @throws \WangYu\exception\ReflexException
      */
     public function authority()
     {
