@@ -98,7 +98,6 @@ class AuthMap
             return [];
         }
 
-        // TODO 管理员模块不加载到输出的权限图中，临时处理
         return [
             $matches[4][0] => array($matches[2][0] => [''])
         ];
