@@ -9,6 +9,8 @@
 namespace app\lib\auth;
 
 
+use WangYu\Reflex;
+
 class AuthMap
 {
     private $authList;
@@ -92,9 +94,11 @@ class AuthMap
             return [];
         }
 
-        return [
-            $matches[4][0] => array($matches[2][0] => [''])
-        ];
+        // TODO 管理员模块不加载到输出的权限图中，临时处理
+        return $matches[4][0] != '管理员' ? array(
+                $matches[4][0] => array($matches[2][0] => [''])
+            ) : [];
+
     }
 
     private function authListGroup($authList)
