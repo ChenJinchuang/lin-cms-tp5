@@ -35,22 +35,13 @@ class Auth
         if (empty($actionAuth)) return true;
         // 账户信息，包含所拥有的权限列表
         $userAuth = $this->userAuth();
-
         //账户属于超级管理员，直接通过
         if ($userAuth['admin'] == 2) return true;
-        // 生成账户拥有权限的数组
-//        $authList = [];
-//        foreach ($userAuth['auths'] as $key => $value) {
-//            foreach ($value as $k => $v) {
-//                foreach ($v as $auth) {
-//                    array_push($authList, $auth['auth']);
-//                }
-//            }
-//        }
+        // 遍历账户权限字段，格式化数组格式供后续判断
         $authList = $this->recursiveForeach($userAuth['auths']);
-
         // 判断接口权限是否在账户拥有权限数组内
         $allowable = in_array(key($actionAuth), $authList) ? true : false;
+        // 返回结果
         return $allowable;
 
     }
@@ -93,6 +84,11 @@ class Auth
 
     }
 
+    /**
+     * 递归遍历用户权限字段的数组
+     * @param $array
+     * @return array
+     */
     protected function recursiveForeach($array)
     {
         static $authList = [];
