@@ -59,7 +59,7 @@ class Auth
         // 获取当前请求的方法
         $action = $this->request->action();
         // 反射获取当前请求的控制器类
-        $class = new \ReflectionClass('app\\api\\controller\\' . $controllerPath[0] . '\\' . $controllerPath[1]);
+        $class = new \ReflectionClass('app\\api\\controller\\' .  strtolower($controllerPath[0]) . '\\' . $controllerPath[1]);
         // 获取控制器类下指定方法的注释
         $actionDoc = $class->getMethod($action)->getDocComment();
         // 获取方法内的权限标识内容
