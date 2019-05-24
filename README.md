@@ -180,7 +180,7 @@ You can exit with `CTRL-C`
 
 ### `第1步` 需要在`composer.json`引入`lin-cms-tp/validate-core`扩展（默认配置）
 
-```json5
+```
  // ....省略其它配置
  "require": {
      // ....省略其它扩展配置
@@ -215,10 +215,51 @@ Route::group('', function () {
 })->middleware(['Auth','ReflexValidate'])->allowCrossDomain();
 ```
 
-### `第5步:` 需要在方法注释中新增验证器`@validate('验证模型名称')`
+### `第5步:` 需要在方法注释中新增验证器
+
+#### `@param('参数名称','参数注释','参数规则')` 模式
+
+> 为了培养程序员良好的注释模式，参数一定需要注释，请大家务必谨记。
+
+```php
+    /**
+     * 查询指定bid的图书
+     * @param $bid
+     * @param('bid','图书ID','require|number')
+     * @return mixed
+     */
+    public function getBook($bid)
+    {
+        $result = BookModel::get($bid);
+        return $result;
+    }
+```
+
+
+#### `@validate('验证模型名称')` 模式
 
 > 本注释验证器模式有两种方式，如有不在`application\api\validate目录`的
 > 验证器,请使用全命名空间，
+
+- 第一种：`验证器类名称模式`
+
+```php
+    /**
+     * 账户登陆
+     * @param Request $request
+     * @validate('LoginForm')
+     * @return array
+     * @throws \think\Exception
+     */
+    public function login(Request $request)
+    {
+        # (new LoginForm())->goCheck();  # 开启注释验证器以后，本行可以去掉，这里做更替说明
+        # 省略代码逻辑
+    }
+``` 
+
+- 第二种：`全路径模式`
+
 
 >例如：`@validate('\app\common\validate\验证模 型名称')`
 
@@ -226,7 +267,7 @@ Route::group('', function () {
     /**
      * 账户登陆
      * @param Request $request
-     * @validate('LoginForm')
+     * @validate('\app\common\validate\LoginForm')
      * @return array
      * @throws \think\Exception
      */
