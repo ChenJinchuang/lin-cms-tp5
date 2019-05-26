@@ -174,110 +174,6 @@ You can exit with `CTRL-C`
 
 打开浏览器，访问``http://127.0.0.1:8000``，你会看到一个欢迎界面，至此，Lin-cms-tp5部署完毕，可搭配[lin-cms-vue](https://github.com/TaleLin/lin-cms-vue)使用了。
 
-## 注释验证器模式
-
-> 参数说明见[注释验证器文档](https://github.com/china-wangyu/lin-cms-tp-validate-core)
-
-### `第1步` 需要在`composer.json`引入`lin-cms-tp/validate-core`扩展（默认配置）
-
-```
- // ....省略其它配置
- "require": {
-     // ....省略其它扩展配置
-    "lin-cms-tp/validate-core": "dev-master"
-  },
- 
-```
-
-### `第2步` 需要在命令行更新`composer.json`引入的`lin-cms-tp/validate-core`扩展
-
-```bash
-composer update
-```
-
-### `第3步:` 需要在中间件配置`config/middleware.php`中引入 `LinCmsTp\Param::class`（默认安装）
-
-```php
-return [
-    // 默认中间件命名空间
-    'default_namespace' => 'app\\http\\middleware\\',
-    'ReflexValidate' => LinCmsTp\Param::class  // 开启注释验证器，需要的中间件配置，请勿胡乱关闭
-];
-```
-
-### `第4步:` 需要在路由配置`route/route.php`中引入验证器中间件`ReflexValidate`
-
-```php
-use think\facade\Route;
-
-Route::group('', function () {
-   # .... 省略一大堆路由配置
-})->middleware(['Auth','ReflexValidate'])->allowCrossDomain();
-```
-
-### `第5步:` 需要在方法注释中新增验证器
-
-#### `@param('参数名称','参数注释','参数规则')` 模式
-
-> 为了培养程序员良好的注释模式，参数一定需要注释，请大家务必谨记。
-
-```php
-    /**
-     * 查询指定bid的图书
-     * @param $bid
-     * @param('bid','图书ID','require|number')
-     * @return mixed
-     */
-    public function getBook($bid)
-    {
-        $result = BookModel::get($bid);
-        return $result;
-    }
-```
-
-
-#### `@validate('验证模型名称')` 模式
-
-> 本注释验证器模式有两种方式，如有不在`application\api\validate目录`的
-> 验证器,请使用全命名空间，
-
-- 第一种：`验证器类名称模式`
-
-```php
-    /**
-     * 账户登陆
-     * @param Request $request
-     * @validate('LoginForm')
-     * @return array
-     * @throws \think\Exception
-     */
-    public function login(Request $request)
-    {
-        # (new LoginForm())->goCheck();  # 开启注释验证器以后，本行可以去掉，这里做更替说明
-        # 省略代码逻辑
-    }
-``` 
-
-- 第二种：`全路径模式`
-
-
->例如：`@validate('\app\common\validate\验证模 型名称')`
-
-```php
-    /**
-     * 账户登陆
-     * @param Request $request
-     * @validate('\app\common\validate\LoginForm')
-     * @return array
-     * @throws \think\Exception
-     */
-    public function login(Request $request)
-    {
-        # (new LoginForm())->goCheck();  # 开启注释验证器以后，本行可以去掉，这里做更替说明
-        # 省略代码逻辑
-    }
-```
-
 ## 讨论交流
 微信公众号搜索：林间有风
 <br>
@@ -290,6 +186,7 @@ QQ群搜索：Lin CMS 或 814597236
 
 ## 下个版本开发计划
 
+- [ ] 常用异步任务封装
 - [ ] 注解路由
 - [x] 模型封装
 - [x] 注解验证器
