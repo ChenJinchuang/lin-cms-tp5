@@ -1,3 +1,10 @@
+<h1 align="center">
+  <a href="http://doc.cms.7yue.pro/">
+  <img src="http://doc.cms.7yue.pro/left-logo.png" width="250"/></a>
+  <br>
+  Lin-CMS-TP5
+</h1>
+
 <p align="center">
   <img src="https://img.shields.io/badge/PHP-%3E%3D7.1-blue.svg" alt="php version" data-canonical-src="https://img.shields.io/badge/PHP-%3E%3D7.1-blue.svg" style="max-width:100%;"></a>
   <a href="https://www.kancloud.cn/manual/thinkphp5_1/353946" rel="nofollow"><img src="https://img.shields.io/badge/ThinkPHP-5.1.*-green.svg" alt="ThinkPHP version" data-canonical-src="https://img.shields.io/badge/ThinkPHP-5.1.*-green.svg" style="max-width:100%;"></a>
@@ -17,7 +24,7 @@
 
 ## 线上 Demo
 
-TP5版的暂无，可直接参考官方团队的线上Demo：[http://face.cms.7yue.pro/](http://face.cms.7yue.pro/)
+可直接参考官方团队的线上Demo：[http://face.cms.7yue.pro/](http://face.cms.7yue.pro/)
 
 ## 什么是 Lin CMS？
 
