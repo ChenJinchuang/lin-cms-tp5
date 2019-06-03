@@ -31,7 +31,7 @@ class Auth
     public function check()
     {
         //判断是否加载文件函数注释
-        if(ini_get('opcache.save_comments') == 0)
+        if(ini_get('opcache.save_comments') === '0' || ini_get('opcache.save_comments') === '')
         {
             throw new DeployException();
         }
