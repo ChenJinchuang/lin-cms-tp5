@@ -115,7 +115,7 @@ class Admin
     {
         //查询当前权限组下是否存在用户
         $isUsers = LinUser::get(['group_id'=>$id]);
-        if(!$isUsers)
+        if($isUsers)
         {
             throw new GroupException([
                 'code' => 412,
