@@ -114,8 +114,8 @@ class Admin
     public function deleteGroup($id)
     {
         //查询当前权限组下是否存在用户
-        $isHasUser = LinUser::get(['group_id'=>$id]);
-        if($isHasUser)
+        $hasUser = LinUser::get(['group_id'=>$id]);
+        if($hasUser)
         {
             throw new GroupException([
                 'code' => 412,
