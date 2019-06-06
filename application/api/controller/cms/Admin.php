@@ -113,7 +113,17 @@ class Admin
      */
     public function deleteGroup($id)
     {
-        LinGroup::destroy($id);
+        //查询当前权限组下是否存在用户
+        $isHasUser = LinUser::get(['group_id'=>$id]);
+        if($isHasUser)
+        {
+            throw new GroupException([
+                'code' => 412,
+                'msg' => '分组下存在用户，删除分组失败',
+                'error_code' => 30005
+            ]);
+        }
+        LinGroup::deleteGroupAuth($id);
         Hook::listen('logger', '删除了权限组id为' . $id . '的权限组');
         return writeJson(201, '', '删除分组成功');
     }
