@@ -10,6 +10,7 @@ use LinCmsTp5\admin\model\LinUser;
 use think\Controller;
 use think\facade\Hook;
 use think\Request;
+use think\response\Json;
 
 class User extends Controller
 {
