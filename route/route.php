@@ -23,6 +23,8 @@ Route::group('', function () {
             Route::get('auths', 'api/cms.User/getAllowedApis');
             // 注册一个用户
             Route::post('register', 'api/cms.User/register');
+            // 注册一个用户
+            Route::post('register', 'api/cms.User/register');
         });
         // 管理类接口
         Route::group('admin', function () {
