@@ -4,6 +4,7 @@ namespace app\api\controller\cms;
 
 //use app\api\validate\user\LoginForm;  # 开启注释验证器以后，本行可以去掉，这里做更替说明
 //use app\api\validate\user\RegisterForm; # 开启注释验证器以后，本行可以去掉，这里做更替说明
+use app\api\validate\user\UpdateAvatar;
 use app\lib\token\Token;
 use LinCmsTp5\admin\model\LinUser;
 use think\Controller;
@@ -65,6 +66,21 @@ class User extends Controller
         Hook::listen('logger', '创建了一个用户');
 
         return writeJson(201, '', '用户创建成功');
+    }
+
+
+    // 更新头像接口
+    public function setAvatar(Request $request)
+    {
+        (new UpdateAvatar())->goCheck();
+
+        $params = $request->put();
+        $params['uid'] = Token::getCurrentUID();
+        LinUser::updateUserAvatar($params);
+
+        Hook::listen('logger', '更新了头像');
+
+        return writeJson(0, '', '更新头像成功');
     }
 
 

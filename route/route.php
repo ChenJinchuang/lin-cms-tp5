@@ -25,6 +25,8 @@ Route::group('', function () {
             Route::post('register', 'api/cms.User/register');
             // 注册一个用户
             Route::post('register', 'api/cms.User/register');
+            // 用户更新头像
+            Route::put('avatar', 'api/cms.User/setAvatar');
         });
         // 管理类接口
         Route::group('admin', function () {
