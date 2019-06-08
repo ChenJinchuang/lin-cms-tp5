@@ -56,6 +56,9 @@ Route::group('', function () {
         Route::get('log/', 'api/cms.Log/getLogs');
         Route::get('log/users', 'api/cms.Log/getUsers');
         Route::get('log/search', 'api/cms.Log/getUserLogs');
+
+        //上传文件类接口
+        Route::post('file','api/cms.File/index');
     });
     Route::group('v1', function () {
         // 查询所有图书
