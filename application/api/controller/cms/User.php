@@ -2,8 +2,7 @@
 
 namespace app\api\controller\cms;
 
-//use app\api\validate\user\LoginForm;  # 开启注释验证器以后，本行可以去掉，这里做更替说明
-//use app\api\validate\user\RegisterForm; # 开启注释验证器以后，本行可以去掉，这里做更替说明
+
 use app\api\validate\user\UpdateAvatar;
 use app\lib\token\Token;
 use LinCmsTp5\admin\model\LinUser;
@@ -70,9 +69,10 @@ class User extends Controller
     }
 
 
-    // 更新头像接口
+
 
     /**
+     * 更新头像接口
      * @param Request $request
      * @param('url','头像的地址','require|url')
      * @return Json
