@@ -57,8 +57,6 @@ class User extends Controller
      */
     public function register(Request $request)
     {
-//        (new RegisterForm())->goCheck(); # 开启注释验证器以后，本行可以去掉，这里做更替说明
-
         $params = $request->post();
         LinUser::createUser($params);
 
