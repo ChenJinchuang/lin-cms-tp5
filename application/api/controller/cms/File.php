@@ -4,6 +4,7 @@
 * Date: 2019- 06-08
 *Time: 16:26
 */
+
 namespace app\api\controller\cms;
 
 use think\facade\Request;
@@ -21,17 +22,16 @@ class File extends Controller
      * @return mixed
      * @throws FileException
      */
-    public function index()
+    public function postFile()
     {
-        try{
+        try {
             $request = Request::file();
-        }catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             throw new FileException([
                 'msg' => '字段中含有非法字符',
             ]);
         }
-        $file = (new LocalUploader($request)) ->upload();
+        $file = (new LocalUploader($request))->upload();
         return $file;
     }
 }

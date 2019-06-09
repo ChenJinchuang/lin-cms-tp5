@@ -4,6 +4,7 @@
 * Date: 2019-06-08
 *Time: 16:19
 */
+
 namespace app\lib\file;
 
 use think\facade\Config;
@@ -23,26 +24,24 @@ class LocalUploader extends Files
     public function upload()
     {
         $ret = [];
-        $host = Config::get('file.host')??"http://127.0.0.1:8000";
-        foreach($this->files as $key => $file)
-        {
-            $md5 = $this -> generateMd5($file);
-            $exists = LinFile::get(['md5'=>$md5]);
-            if($exists)
-            {
-                array_push($ret,[
+        $host = Config::get('file.host') ?? "http://127.0.0.1:8000";
+        foreach ($this->files as $key => $file) {
+            $md5 = $this->generateMd5($file);
+            $exists = LinFile::get(['md5' => $md5]);
+            if ($exists) {
+                array_push($ret, [
                     'key' => $key,
                     'id' => $exists['id'],
-                    'url' => $host .'/uploads/' . $exists['path']
+                    'url' => $host . '/uploads/' . $exists['path']
                 ]);
-            }else{
-                $size = $this -> getSize($file);
+            } else {
+                $size = $this->getSize($file);
                 $info = $file->move($this->storeDir);
-                if($info){
+                if ($info) {
                     $extension = '.' . $info->getExtension();
                     $path = $info->getSaveName();
                     $name = $info->getFilename();
-                }else{
+                } else {
                     throw new FileException([
                         'msg' => $this->getError,
                         'error_code' => 60001
@@ -56,10 +55,10 @@ class LocalUploader extends Files
                     'md5' => $md5,
                     'type' => 1
                 ]);
-                array_push($ret,[
+                array_push($ret, [
                     'key' => $key,
                     'id' => $linFile->id,
-                    'url' => $host .'/uploads/' . $path
+                    'url' => $host . '/uploads/' . $path
                 ]);
 
             }
