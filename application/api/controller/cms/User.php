@@ -71,13 +71,21 @@ class User extends Controller
 
 
     // 更新头像接口
+
+    /**
+     * @param Request $request
+     * @param('url','头像的地址','require|url')
+     * @return Json
+     * @throws \LinCmsTp5\admin\exception\user\UserException
+     * @throws \app\lib\exception\token\TokenException
+     * @throws \think\Exception
+     */
     public function setAvatar(Request $request)
     {
-        (new UpdateAvatar())->goCheck();
+        $url = $request->put('url');
 
-        $params = $request->put();
-        $params['uid'] = Token::getCurrentUID();
-        LinUser::updateUserAvatar($params);
+        $uid = Token::getCurrentUID();
+        LinUser::updateUserAvatar($uid,$url);
 
         Hook::listen('logger', '更新了头像');
 
