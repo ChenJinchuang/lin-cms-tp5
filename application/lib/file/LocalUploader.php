@@ -39,7 +39,7 @@ class LocalUploader extends Files
                 $info = $file->move($this->storeDir);
                 if ($info) {
                     $extension = '.' . $info->getExtension();
-                    $path = $info->getSaveName();
+                    $path = str_replace('\\','/',$info->getSaveName());
                     $name = $info->getFilename();
                 } else {
                     throw new FileException([
