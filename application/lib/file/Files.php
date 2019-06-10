@@ -81,7 +81,7 @@ abstract class Files
                 'msg' => '未找到符合条件的文件资源',
             ]);
         }
-        $this->allowdFile();
+        $this->allowedFile();
         $this->allowedFileSize();
     }
 
@@ -109,7 +109,7 @@ abstract class Files
      * @return bool
      * @throws FileException
      */
-    protected function allowdFile()
+    protected function allowedFile()
     {
         if ((!empty($this->includes) && !empty($this->exclude)) || !empty($this->includes)) {
             foreach ($this->files as $v) {
