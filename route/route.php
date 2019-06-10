@@ -58,7 +58,7 @@ Route::group('', function () {
         Route::get('log/search', 'api/cms.Log/getUserLogs');
 
         //上传文件类接口
-        Route::post('file','api/cms.File/postFile');
+        Route::post('file/','api/cms.File/postFile');
     });
     Route::group('v1', function () {
         // 查询所有图书
