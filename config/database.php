@@ -15,11 +15,11 @@ return [
     // 服务器地址
     'hostname'        => 'localhost',
     // 数据库名
-    'database'        => 'lin',
+    'database'        => 'lin-test',
     // 用户名
     'username'        => 'root',
     // 密码
-    'password'        => 'root',
+    'password'        => '',
     // 端口
     'hostport'        => '',
     // 连接dsn

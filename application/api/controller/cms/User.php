@@ -46,7 +46,7 @@ class User extends Controller
     }
 
     /**
-     * @auth('创建用户','管理员')
+     * @auth('创建用户','管理员','hidden')
      * @param Request $request
      * @validate('RegisterForm')
      * @return \think\response\Json
