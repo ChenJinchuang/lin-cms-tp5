@@ -80,7 +80,6 @@ class User extends Controller
     public function setAvatar(Request $request)
     {
         $url = $request->put('url');
-
         $uid = Token::getCurrentUID();
         LinUser::updateUserAvatar($uid,$url);
 
