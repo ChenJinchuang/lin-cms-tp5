@@ -2,7 +2,6 @@
 
 namespace app\api\controller\cms;
 
-use app\api\validate\user\UpdateAvatar;
 use app\lib\token\Token;
 use LinCmsTp5\admin\model\LinUser;
 use think\Controller;
