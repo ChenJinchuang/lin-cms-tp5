@@ -10,6 +10,7 @@ namespace app\lib\token;
 
 use app\lib\exception\token\TokenException;
 use Firebase\JWT\JWT;
+use LinCmsTp5\admin\model\LinUser;
 use think\Exception;
 use think\facade\Request;
 
@@ -73,8 +74,9 @@ class Token
      */
     public static function getCurrentUser()
     {
-        $uid = self::getCurrentTokenVar('user');
-        return $uid;
+        $uid = self::getCurrentUID();
+        $user = LinUser::get($uid);
+        return $user->hidden(['password']);
     }
 
     /**
@@ -133,9 +135,6 @@ class Token
             throw new TokenException(['msg' => '令牌已过期，刷新浏览器重试']);
         } catch (Exception $e) {  //其他错误
             throw new Exception($e->getMessage());
-        }
-        if (array_key_exists($key, $jwt)) {
-            return $jwt[$key];
         }
         if (array_key_exists($key, $jwt['user'])) {
             return $jwt['user']->$key;

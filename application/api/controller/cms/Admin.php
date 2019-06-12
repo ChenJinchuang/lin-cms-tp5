@@ -110,6 +110,7 @@ class Admin
      * @auth('删除一个权限组','管理员','hidden')
      * @param $id
      * @return \think\response\Json
+     * @throws GroupException
      */
     public function deleteGroup($id)
     {
