@@ -6,6 +6,7 @@ namespace app\api\controller\cms;
 //use app\api\validate\user\RegisterForm; # 开启注释验证器以后，本行可以去掉，这里做更替说明
 use app\lib\token\Token;
 use LinCmsTp5\admin\model\LinUser;
+use think\App;
 use think\Controller;
 use think\facade\Hook;
 use think\Request;
@@ -67,6 +68,16 @@ class User extends Controller
         return writeJson(201, '', '用户创建成功');
     }
 
+    /**
+     * @return mixed
+     * @throws \app\lib\exception\token\TokenException
+     * @throws \think\Exception
+     */
+    public function getInformation()
+    {
+        $user = Token::getCurrentUser();
+        return $user;
+    }
 
     /**
      * @param Request $request
@@ -80,7 +91,7 @@ class User extends Controller
         $url = $request->put('url');
         $uid = Token::getCurrentUID();
 
-        LinUser::updateUserAvatar($uid,$url);
+        LinUser::updateUserAvatar($uid, $url);
 
         return writeJson(201, '', '更新头像成功');
     }
