@@ -32,10 +32,7 @@ class Token
      */
     public static function refreshToken()
     {
-        $user = [
-            'id' => self::getCurrentUID(),
-            'nickname' => self::getCurrentName()
-        ];
+        $user = self::getCurrentUser();
         $accessToken = self::createAccessToken($user);
 
         return [
@@ -49,9 +46,8 @@ class Token
         $payload = [
             'iss' => 'lin-cms-tp5', //签发者
             'iat' => time(), //什么时候签发的
-            'exp' => time() + 7200, //过期时间
-            'uid' => $user['id'],
-            'nickname' => $user['nickname']
+            'exp' => time() + 10, //过期时间
+            'user' => $user,
         ];
         $token = JWT::encode($payload, $key);
         return $token;
@@ -64,8 +60,7 @@ class Token
         $payload = [
             'iss' => 'lin-cms-tp5', //签发者
             'iat' => time(), //什么时候签发的
-            'uid' => $user['id'],
-            'nickname' => $user['nickname']
+            'user' => $user,
         ];
         $token = JWT::encode($payload, $key);
         return $token;
@@ -76,9 +71,20 @@ class Token
      * @throws Exception
      * @throws TokenException
      */
+    public static function getCurrentUser()
+    {
+        $uid = self::getCurrentTokenVar('user');
+        return $uid;
+    }
+
+    /**
+     * @return mixed
+     * @throws Exception
+     * @throws TokenException
+     */
     public static function getCurrentUID()
     {
-        $uid = self::getCurrentTokenVar('uid');
+        $uid = self::getCurrentTokenVar('id');
         return $uid;
     }
 
@@ -130,6 +136,9 @@ class Token
         }
         if (array_key_exists($key, $jwt)) {
             return $jwt[$key];
+        }
+        if (array_key_exists($key, $jwt['user'])) {
+            return $jwt['user']->$key;
         } else {
             throw new TokenException(['msg' => '尝试获取的Token变量不存在']);
         }
