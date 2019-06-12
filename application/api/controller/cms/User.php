@@ -69,6 +69,24 @@ class User extends Controller
 
 
     /**
+     * @param Request $request
+     * @param ('url','头像url','require|url')
+     * @return \think\response\Json
+     * @throws \app\lib\exception\token\TokenException
+     * @throws \think\Exception
+     */
+    public function setAvatar(Request $request)
+    {
+        $url = $request->put('url');
+        $uid = Token::getCurrentUID();
+
+        LinUser::updateUserAvatar($uid,$url);
+
+        return writeJson(201, '', '更新头像成功');
+    }
+
+
+    /**
      * @return array
      * @throws \app\lib\exception\token\TokenException
      * @throws \think\Exception
