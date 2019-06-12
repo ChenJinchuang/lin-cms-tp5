@@ -10,6 +10,7 @@ namespace app\lib\file;
 use think\facade\Config;
 use LinCmsTp5\admin\model\LinFile;
 use app\lib\exception\file\FileException;
+use LinCmsFile\fileUpload\Files;
 
 /**
  * Class LocalUploader
