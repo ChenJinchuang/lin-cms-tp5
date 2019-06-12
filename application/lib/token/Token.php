@@ -46,7 +46,7 @@ class Token
         $payload = [
             'iss' => 'lin-cms-tp5', //签发者
             'iat' => time(), //什么时候签发的
-            'exp' => time() + 10, //过期时间
+            'exp' => time() + 7200, //过期时间
             'user' => $user,
         ];
         $token = JWT::encode($payload, $key);
