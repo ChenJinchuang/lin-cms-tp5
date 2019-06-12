@@ -88,9 +88,8 @@ class User extends Controller
      */
     public function setAvatar(Request $request)
     {
-        $url = $request->put('url');
+        $url = $request->put('avatar');
         $uid = Token::getCurrentUID();
-
         LinUser::updateUserAvatar($uid, $url);
 
         return writeJson(201, '', '更新头像成功');
