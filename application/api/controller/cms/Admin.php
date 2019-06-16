@@ -194,8 +194,7 @@ class Admin
     {
         $params = $request->post();
 
-        $auths = json_decode($params['auths'], true);
-        LinAuth::where(['group_id' => $params['group_id'], 'auth' => $auths])
+        LinAuth::where(['group_id' => $params['group_id'], 'auth' => $params['auths']])
             ->delete();
         return writeJson(201, '', '删除权限成功');
     }
