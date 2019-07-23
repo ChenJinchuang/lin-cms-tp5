@@ -30,9 +30,10 @@ class LocalUploader extends File
             $exists = LinFile::get(['md5' => $md5]);
             if ($exists) {
                 array_push($ret, [
-                    'key' => $key,
                     'id' => $exists['id'],
-                    'url' => $host . '/uploads/' . $exists['path']
+                    'key' => $key,
+                    'path' => $exists['path'],
+                    'url' => $host .explode('.',$this->storeDir)[1] . '/' . $exists['path']
                 ]);
             } else {
                 $size = $this->getSize($file);
@@ -43,7 +44,7 @@ class LocalUploader extends File
                     $name = $info->getFilename();
                 } else {
                     throw new FileException([
-                        'msg' => $this->getError,
+                        'msg' => $file->getError(),
                         'error_code' => 60001
                     ]);
                 }
@@ -56,9 +57,10 @@ class LocalUploader extends File
                     'type' => 1
                 ]);
                 array_push($ret, [
-                    'key' => $key,
                     'id' => $linFile->id,
-                    'url' => $host . '/uploads/' . $path
+                    'key' => $key,
+                    'path' => $path,
+                    'url' => $host .explode('.',$this->storeDir)[1] . '/' . $path
                 ]);
 
             }
