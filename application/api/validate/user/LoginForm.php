@@ -9,9 +9,11 @@
 namespace app\api\validate\user;
 
 
-use LinCmsTp5\validate\BaseValidate;
 
-class LoginForm extends BaseValidate
+
+use WangYu\validate\Validate;
+
+class LoginForm extends Validate
 {
     protected $rule = [
         'nickname' => 'require',

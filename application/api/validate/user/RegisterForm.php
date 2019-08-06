@@ -9,9 +9,9 @@
 namespace app\api\validate\user;
 
 
-use LinCmsTp5\validate\BaseValidate;
+use WangYu\validate\Validate;
 
-class RegisterForm extends BaseValidate
+class RegisterForm extends Validate
 {
     protected $rule = [
         'password' => 'require|confirm:confirm_password',

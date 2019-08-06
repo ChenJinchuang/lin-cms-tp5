@@ -19,7 +19,7 @@ return [
     // 应用地址
     'app_host'               => '',
     // 应用调试模式
-    'app_debug'              => true,
+    'app_debug'              => false,
     // 应用Trace
     'app_trace'              => false,
     // 是否支持多模块
@@ -141,6 +141,6 @@ return [
     // 显示错误信息
     'show_error_msg'         => false,
     // 异常处理handle类 留空使用 \think\exception\Handle
-    'exception_handle'       => 'LinCmsTp5\exception\ExceptionHandler',
+    'exception_handle'       => \WangYu\exception\TpHttpException::class,
 
 ];

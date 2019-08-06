@@ -9,6 +9,7 @@
 namespace app\lib\auth;
 
 
+use WangYu\annotation\Annotation;
 use WangYu\Reflex;
 
 class AuthMap
@@ -51,7 +52,7 @@ class AuthMap
             // 类下面的所有方法的数组
             $methods = $class->getMethods();
             // 类下面所有含有@auth注解的方法的注解内容数组
-            $methodAuthList = $this->getMethodsDoc($class, $methods);
+            $methodAuthList = $this->newGetMethodsDoc(new $value(), $methods);
             // 插入类权限数组
             array_push($authList, $methodAuthList);
         }
@@ -59,6 +60,23 @@ class AuthMap
         $authListGroup = $this->classAuthListGroup($authList);
         return $authListGroup;
 
+    }
+
+    // 新版 注解内容获取
+    private function newGetMethodsDoc($class,$array){
+        $data = [];
+        $reflex = new Annotation($class);
+        foreach ($array as $value) {
+            $authAnnotation = $reflex->setMethod($value->name)->get('auth');
+
+            $authAnnotation = $this->handleAnnotation($authAnnotation);
+            if (!empty($authAnnotation)) {
+                array_push($data, $authAnnotation);
+            }
+        }
+        // 根据权限所属模型对注解内容数组进行分组
+        $methodsAuthGroup = $this->authListGroup($data);
+        return $methodsAuthGroup;
     }
 
     /**
@@ -104,15 +122,21 @@ class AuthMap
 
     }
 
-    public function handleAnnotation(array $annotation)
+    public function handleAnnotation( $annotation)
     {
-        if (empty($annotation[0]) || in_array('hidden', $annotation[0])) {
-            return [];
-        }
-
+        // 新版
+        if (empty($annotation) || in_array('hidden',$annotation))return[];
         return [
-            $annotation[0][1] => [$annotation[0][0] => ['']]
+            $annotation[1] => [$annotation[0]=>['']]
         ];
+        // 旧版
+//        if (!empty($annotation[0]) and in_array('hidden', $annotation[0])) {
+//            return [];
+//        }
+
+//        return [
+//            $annotation[0][1] => [$annotation[0][0] => ['']]
+//        ];
     }
 
     private function authListGroup($authList)

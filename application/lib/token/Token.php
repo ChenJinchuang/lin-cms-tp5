@@ -34,6 +34,7 @@ class Token
     public static function refreshToken()
     {
         $user = self::getCurrentUser();
+
         $accessToken = self::createAccessToken($user);
 
         return [

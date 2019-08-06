@@ -20,11 +20,9 @@ class Auth
     {
 
         $auth = (new Permission($request))->check();
-
         if (!$auth) {
             throw new ForbiddenException();
         }
-
         return $next($request);
     }
 }

@@ -16,12 +16,49 @@ use LinCmsTp5\admin\model\LinUser;
 use think\facade\Hook;
 use think\Request;
 
+/**
+ * Class Admin
+ * @doc('管理类')
+ * @group('cms/admin')
+ * @package app\api\controller\cms
+ * @inheritDoc('@auth注解函数说明：第一个是权限名称，第二个是权限模块名称，第三个是否隐藏权限不可分配')
+ */
 class Admin
 {
 
     /**
-     * 配置hidden后，这个权限信息不会挂载到权限图，获取所有可分配的权限时不会显示这个权限
+     * @doc('配置hidden后，这个权限信息不会挂载到权限图，获取所有可分配的权限时不会显示这个权限')
      * @auth('查询所有用户','管理员','hidden')
+     * @route('users','get')
+     * @success('{
+            "collection": [
+                {
+                    "id": 2,
+                    "nickname": "test",
+                    "email": "21@qq.com",
+                    "admin": 1,
+                    "active": 1,
+                    "group_id": 1,
+                    "create_time": "2019-08-05 17:14:25",
+                    "avatar": null,
+                    "group_name": null
+                },
+                {
+                    "id": 3,
+                    "nickname": "test1",
+                    "email": "211@qq.com",
+                    "admin": 1,
+                    "active": 1,
+                    "group_id": 1,
+                    "create_time": "2019-08-05 17:15:35",
+                    "avatar": null,
+                    "group_name": null
+                }
+            ],
+            "total_nums": 2
+        }')
+     * @error('')
+     * @param('group_id','分组ID','>:0')
      * @param Request $request
      * @return array
      * @throws \think\exception\DbException
@@ -35,8 +72,22 @@ class Admin
     }
 
     /**
+     * @doc('修改用户密码')
      * @auth('修改用户密码','管理员','hidden')
+     * @route('password','put')
+     * @success('{
+        "error_code": 0,
+        "result": "",
+        "msg": "密码修改成功"
+        }')
+     * @error('{
+        "code": 400,
+        "message": "3000: 错误内容 . Undefined index: new_password",
+        "request_url": "cms\/admin\/password\/2"
+        }')
      * @param Request $request
+     * @param('uid','用户id','require|>:0')
+     * @param('new_password','用户密码','require|alphaDash|length:3,16')
      * @return \think\response\Json
      * @throws \LinCmsTp5\admin\exception\user\UserException
      */
@@ -49,10 +100,23 @@ class Admin
     }
 
     /**
+     * @doc('删除用户')
      * @auth('删除用户','管理员','hidden')
+     * @route('','delete')
+     * @success('{
+        "error_code": 0,
+        "result": "",
+        "msg": "操作成功"
+        }')
+     * @error('{
+        "code": 400,
+        "message": "3000: 错误内容 . 1000: 错误内容 . 账户不存在",
+        "request_url": "cms\/admin\/3"
+        }')
      * @param $uid
+     * @param('uid','用户id','require|integer|between:2,10000000000')
      * @return \think\response\Json
-     * @throws \think\Exception
+     * @throws \LinCmsTp5\admin\exception\user\UserException
      */
     public function deleteUser($uid)
     {
@@ -62,8 +126,22 @@ class Admin
     }
 
     /**
+     * @doc('管理员更新用户信息')
      * @auth('管理员更新用户信息','管理员','hidden')
+     * @route('','put')
+     * @success('{
+        "error_code": 0,
+        "result": "",
+        "msg": "操作成功"
+        }')
+     * @error('{
+        "code": 400,
+        "message": "3000: 错误内容 . 参数验证 .   用户email不能为空",
+        "request_url": "cms\/admin\/4"
+        }')
      * @param Request $request
+     * @param('uid','用户id','require|integer|between:1,10000000000')
+     * @param('email','用户email','require|email')
      * @return \think\response\Json
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
@@ -79,7 +157,11 @@ class Admin
     }
 
     /**
+     * @doc('查询所有权限组')
      * @auth('查询所有权限组','管理员','hidden')
+     * @route('group/all','get')
+     * @success('[]')
+     * @error('[]')
      * @return mixed
      */
     public function getGroupAll()
@@ -90,8 +172,39 @@ class Admin
     }
 
     /**
+     * @doc('查询一个权限组及其权限')
      * @auth('查询一个权限组及其权限','管理员','hidden')
+     * @route('group','get')
+     * @success('{
+        "id": 2,
+        "name": "34234",
+        "info": "ewgrbesxa",
+        "auths": [
+                {
+                    "日志": [
+                        {
+                        "auth": "查询所有日志",
+                        "module": "日志"
+                        },
+                        {
+                        "auth": "搜索日志",
+                        "module": "日志"
+                        },
+                        {
+                        "auth": "查询日志记录的用户",
+                        "module": "日志"
+                        }
+                    ]
+                }
+            ]
+        }')
+     * @error('{
+        "code": 400,
+        "message": "3000: 错误内容 . 1000: 错误内容 . 指定的分组不存在",
+        "request_url": "cms\/admin\/group\/1"
+        }')
      * @param $id
+     * @param('id','分组id','require|integer|between:0,10000000000')
      * @return array|\PDOStatement|string|\think\Model
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
@@ -107,8 +220,17 @@ class Admin
 
 
     /**
+     * @doc('删除一个权限组')
      * @auth('删除一个权限组','管理员','hidden')
+     * @route('group','delete')
+     * @success('')
+     * @error('{
+        "code": 400,
+        "message": "3000: 错误内容 . 1000: 错误内容 . 分组下存在用户，删除分组失败",
+        "request_url": "cms\/admin\/group\/1"
+        }')
      * @param $id
+     * @param('id','分组id','require|integer|between:0,10000000000')
      * @return \think\response\Json
      * @throws GroupException
      */
@@ -130,7 +252,19 @@ class Admin
     }
 
     /**
+     * @doc('新建权限组')
      * @auth('新建权限组','管理员','hidden')
+     * @route('group','post')
+     * @success('{
+        "error_code": 0,
+        "result": "",
+        "msg": "成功"
+        }')
+     * @error('{
+        "code": 400,
+        "message": "3000: 错误内容 . 1000: 错误内容 . 分组已存在",
+        "request_url": "cms\/admin\/group"
+        }')
      * @param Request $request
      * @return \think\response\Json
      * @throws \ReflectionException
@@ -171,7 +305,15 @@ class Admin
     }
 
     /**
+     * @doc('查询所有可分配的权限')
      * @auth('查询所有可分配的权限','管理员','hidden')
+     * @route('authority','get')
+     * @success('{
+        "管理员": {
+            "新建权限组": [""]
+            },....
+        }')
+     * @error('')
      * @return array
      * @throws \ReflectionException
      * @throws \WangYu\exception\ReflexException

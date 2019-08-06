@@ -11,6 +11,7 @@ namespace app\lib\auth;
 use app\lib\token\Token;
 use LinCmsTp5\admin\model\LinUser;
 use app\lib\exception\token\DeployException;
+use WangYu\annotation\Annotation;
 
 class Auth
 {
@@ -24,9 +25,7 @@ class Auth
     /**
      * 主方法，拿到当前接口的权限内容，判断当前请求用户是否拥有这个权限。接口无权限标识或超级管理员直接通过
      * @return bool
-     * @throws \ReflectionException
-     * @throws \app\lib\exception\token\TokenException
-     * @throws \think\Exception
+     * @throws DeployException
      */
     public function check()
     {
@@ -36,9 +35,34 @@ class Auth
             throw new DeployException();
         }
         // 接口的权限内容
-        $actionAuth = $this->actionAuth();
+//        $actionAuth = $this->actionAuth();
+        // 新版检查权限
+//        $actionAuth = $this->newActionAuth();
         // 如果这个接口没有添加权限标识，直接通过
         if (empty($actionAuth)) return true;
+        // 验证权限
+//        $this->checkUserAuth($actionAuth);
+        // 验证权限 新
+        $this->newCheckUserAuth($actionAuth);
+    }
+
+    // 新版获取用户权限
+    protected function newActionAuth(){
+        // 获取当前请求的控制层
+        $controller = $this->request->controller();
+        // 控制层下有二级目录，需要解析下。如controller/cms/Admin，获取到的是Cms.Admin
+        $controllerPath = explode('.', $controller);
+        // 获取当前请求的方法
+        $action = $this->request->action();
+        $class = 'app\\api\\controller\\' . strtolower($controllerPath[0]) . '\\' . $controllerPath[1];
+        $annotation = new Annotation(new $class );
+        $annotation->setMethod($action);
+        $actionAuth = $annotation->get('auth',['auth','menu','status']);
+        return $actionAuth;
+    }
+
+    // 新版检查用户权限
+    protected function newCheckUserAuth($actionAuth){
         // 账户信息，包含所拥有的权限列表
         $userAuth = $this->userAuth();
         //账户属于超级管理员，直接通过
@@ -46,10 +70,9 @@ class Auth
         // 遍历账户权限字段，格式化数组格式供后续判断
         $authList = $this->recursiveForeach($userAuth['auths']);
         // 判断接口权限是否在账户拥有权限数组内
-        $allowable = in_array(key($actionAuth), $authList) ? true : false;
+        $allowable = in_array($actionAuth['auth'], $authList) ? true : false;
         // 返回结果
         return $allowable;
-
     }
 
     /**
@@ -70,9 +93,23 @@ class Auth
         $actionDoc = $class->getMethod($action)->getDocComment();
         // 获取方法内的权限标识内容
         $actionAuth = (new AuthMap())->getMethodDoc($actionDoc);
+
         // $actionAuth返回的是一个数组，由于每个action只会有一个auth,
         //数组只会有一个元素，直接用current函数返回数组当前元素的值。
         return current($actionAuth);
+    }
+    // 检查用户权限
+    protected function checkUserAuth($actionAuth){
+        // 账户信息，包含所拥有的权限列表
+        $userAuth = $this->userAuth();
+        //账户属于超级管理员，直接通过
+        if ($userAuth['admin'] == 2) return true;
+        // 遍历账户权限字段，格式化数组格式供后续判断
+        $authList = $this->recursiveForeach($userAuth['auths']);
+        // 判断接口权限是否在账户拥有权限数组内
+        $allowable = in_array(key($actionAuth), $authList) ? true : false;
+        // 返回结果
+        return $allowable;
     }
 
     /**
