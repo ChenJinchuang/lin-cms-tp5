@@ -11,13 +11,21 @@ namespace app\api\controller\v1;
 use app\api\model\Book as BookModel;
 use think\facade\Hook;
 use think\Request;
+use WangYu\exception\Exception;
 
+/**
+ * Class Book
+ * @doc('图书类')
+ * @group('v1/book')
+ * @package app\api\controller\v1
+ */
 class Book
 {
     /**
-     * 查询指定bid的图书
-     * @param $bid
-     * @param('bid','图书ID','require|number')
+     * @doc('查询指定bid的图书')
+     * @route(':bid','get')
+     * @param Request $bid
+     * @param('bid','bid的图书','require')
      * @return mixed
      */
     public function getBook($bid)
@@ -27,7 +35,8 @@ class Book
     }
 
     /**
-     * 查询所有图书
+     * @doc('查询所有图书')
+     * @route('','get')
      * @return mixed
      */
     public function getBooks()
@@ -45,8 +54,13 @@ class Book
     }
 
     /**
-     * 新建图书
+     * @doc('新建图书')
+     * @route('','post')
      * @param Request $request
+     * @param('title','图书名称','require')
+     * @param('author','图书作者','require')
+     * @param('image','图书img','require')
+     * @param('summary','简介','require')
      * @return \think\response\Json
      */
     public function create(Request $request)
@@ -56,6 +70,13 @@ class Book
         return writeJson(201, '', '新建图书成功');
     }
 
+    /**
+     * @doc('更新图书')
+     * @route(':id','put')
+     * @param Request $request
+     * @param('id','图书id','require')
+     * @return \think\response\Json
+     */
     public function update(Request $request)
     {
         $params = $request->put();
@@ -65,8 +86,10 @@ class Book
     }
 
     /**
+     * @doc('删除图书')
+     * @route(':bid','delete')
      * @auth('删除图书','图书')
-     * @param $bid
+     * @param('bid','图书bid','require')
      * @return \think\response\Json
      */
     public function delete($bid)

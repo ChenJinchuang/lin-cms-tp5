@@ -223,7 +223,11 @@ class Admin
      * @doc('删除一个权限组')
      * @auth('删除一个权限组','管理员','hidden')
      * @route('group','delete')
-     * @success('')
+     * @success('{
+        "error_code": 0,
+        "result": "",
+        "msg": "删除分组成功"
+        }')
      * @error('{
         "code": 400,
         "message": "3000: 错误内容 . 1000: 错误内容 . 分组下存在用户，删除分组失败",
@@ -282,16 +286,24 @@ class Admin
     }
 
     /**
+     * @doc('更新一个权限组')
      * @auth('更新一个权限组','管理员','hidden')
+     * @route('group','put')
+     * @success('{
+        "error_code": 0,
+        "result": "",
+        "msg": "更新分组成功"
+        }')
+     * @error('')
      * @param Request $request
      * @param $id
+     * @param('id','分组id','require|integer|between:0,10000000000')
      * @return \think\response\Json
-     * @throws \think\Exception
+     * @throws GroupException
      */
     public function updateGroup(Request $request, $id)
     {
         $params = $request->put();
-
         $group = LinGroup::find($id);
         if (!$group) {
             throw new GroupException([
@@ -326,8 +338,22 @@ class Admin
     }
 
     /**
+     * @doc('删除多个权限')
      * @auth('删除多个权限','管理员','hidden')
+     * @route('remove','post')
+     * @success('{
+        "error_code": 0,
+        "result": "",
+        "msg": "删除权限成功"
+        }')
+     * @error('{
+        "code": 1001,
+        "message": "参数验证 .   权限不能为空",
+        "request_url": "cms\/admin\/remove"
+        }')
      * @param Request $request
+     * @param('group_id','分组id','require|integer|between:0,10000000000')
+     * @param('auths','权限','require')
      * @return \think\response\Json
      * @throws \think\Exception
      * @throws \think\exception\PDOException
@@ -335,15 +361,28 @@ class Admin
     public function removeAuths(Request $request)
     {
         $params = $request->post();
-
         LinAuth::where(['group_id' => $params['group_id'], 'auth' => $params['auths']])
             ->delete();
         return writeJson(201, '', '删除权限成功');
     }
 
     /**
+     * @doc('分配多个权限')
      * @auth('分配多个权限','管理员','hidden')
+     * @route('/dispatch/patch','post')
+     * @success('{
+        "error_code": 0,
+        "result": "",
+        "msg": "添加权限成功"
+        }')
+     * @error('{
+        "code": 10000,
+        "message": "请求未携带authorization信息",
+        "request_url": "cms\/admin\/dispatch\/patch"
+        }')
      * @param Request $request
+     * @param('group_id','分组id','require|integer|between:0,10000000000')
+     * @param('auths','权限','require')
      * @return \think\response\Json
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
