@@ -27,7 +27,7 @@ class Admin
 {
 
     /**
-     * @doc('配置hidden后，这个权限信息不会挂载到权限图，获取所有可分配的权限时不会显示这个权限')
+     * @doc('查询所有用户')
      * @auth('查询所有用户','管理员','hidden')
      * @route('users','get')
      * @success('{
@@ -58,8 +58,8 @@ class Admin
             "total_nums": 2
         }')
      * @error('')
-     * @param('group_id','分组ID','>:0')
      * @param Request $request
+     * @param('group_id','分组id')
      * @return array
      * @throws \think\exception\DbException
      */
@@ -102,7 +102,7 @@ class Admin
     /**
      * @doc('删除用户')
      * @auth('删除用户','管理员','hidden')
-     * @route('','delete')
+     * @route(':uid','delete')
      * @success('{
         "error_code": 0,
         "result": "",
@@ -113,8 +113,7 @@ class Admin
         "message": "3000: 错误内容 . 1000: 错误内容 . 账户不存在",
         "request_url": "cms\/admin\/3"
         }')
-     * @param $uid
-     * @param('uid','用户id','require|integer|between:2,10000000000')
+     * @param('uid','用户uid','require|integer|between:2,10000000000')
      * @return \think\response\Json
      * @throws \LinCmsTp5\admin\exception\user\UserException
      */

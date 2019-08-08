@@ -23,7 +23,9 @@
     "lin-cms-tp5/base-core": "dev-master",
     "lin-cms-tp5/admin-core": "dev-master",
     "lin-cms-tp/utils-core": "dev-master",
-    "wangyu/tp-anntation": "dev-master"
+    "wangyu/tp-anntation": "dev-dev",
+    "erusev/parsedown-extra": "^0.7.0",
+    "joyqi/hyper-down": "dev-master"
   },
   "autoload": {
     "psr-4": {

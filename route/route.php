@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 
 \WangYu\annotation\Route::reflex('api',['Auth','ReflexValidate']);
+\WangYu\annotation\Route::get('apiShow','index/index/apiMdDemo');
 //use think\facade\Route;
 //
 //Route::group('', function () {
