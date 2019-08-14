@@ -24,6 +24,16 @@ class Book
     /**
      * @doc('查询指定bid的图书')
      * @route(':bid','get')
+     * @success('{
+        "id": 1,
+        "title": "12",
+        "author": "21",
+        "summary": "123",
+        "image": "212",
+        "create_time": "2019-08-07 11:54:22",
+        "update_time": "2019-08-07 12:01:23",
+        "delete_time": null
+        }')
      * @param Request $bid
      * @param('bid','bid的图书','require')
      * @return mixed

@@ -1,4 +1,4 @@
 <?php
 return [
-    "lin-cms:apiDoc" => \WangYu\annotation\DocCommand::class
+    "lin:doc" => \WangYu\annotation\DocCommand::class
 ];
