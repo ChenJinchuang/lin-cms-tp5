@@ -272,3 +272,15 @@ public function __construct($params = [])
     parent::__construct($this->msg);
 }
 ```
+
+
+##  `@step8` 修改下 lin-cms-tp5 的`@auth`权限获取操作
+
+> 操作文件：`application/lib/auth/AuthMap.php`
+
+旧方法： `getMethodsDoc` 
+
+
+新方法： `newGetMethodsDoc`
+
+这个文件的操作我都有备注。
