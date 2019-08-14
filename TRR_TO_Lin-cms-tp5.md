@@ -192,6 +192,7 @@ Route::group('', function () {
     }
     ```
     
+    
 ## `@step5` API 文档生成 `think` 命令
 
 
@@ -237,4 +238,37 @@ Options:
 
 ```bash
 php think lin:doc
+```
+
+## `@step6` 修改异常捕获
+
+> http异常配置在 ：config/app.php
+
+修改 `exception_handle` 选项为： `\WangYu\exception\TpHttpException::class`,
+
+
+## `@step7` 修改下 lin-cms-tp5 的异常基类
+
+> 文件位置：`vendor/lin-cms-tp5/base-core/src/exception/BaseException.php`
+
+继承于 `\WangYu\exception\Exception`
+
+```php
+public function __construct($params = [])
+{
+    if (!is_array($params)) {
+        return;
+    }
+    if (array_key_exists('code', $params)) {
+        $this->code = $params['code'];
+    }
+    if (array_key_exists('msg', $params)) {
+        $this->msg = $params['msg'];
+    }
+    if (array_key_exists('error_code', $params)) {
+        $this->error_code = $params['error_code'];
+    }
+    $this->user_code = $this->error_code;
+    parent::__construct($this->msg);
+}
 ```
