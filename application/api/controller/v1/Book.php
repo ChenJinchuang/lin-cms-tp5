@@ -86,10 +86,8 @@ class Book
     }
 
     /**
-     * @doc('删除图书')
-     * @route(':bid','delete')
      * @auth('删除图书','图书')
-     * @param('bid','图书bid','require')
+     * @param $bid
      * @return \think\response\Json
      */
     public function delete($bid)

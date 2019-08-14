@@ -60,4 +60,20 @@ class Index extends Controller
                         <body class='markdown-body'>$content<body>
                      </html>";
     }
+
+    /**
+     * @doc('删除图书')
+     * @auther('张三')
+     * @update('2019-11-9','2019-12-21')
+     * @info('头像','姓名')
+     */
+    public function reflex()
+    {
+        $reflex = new \WangYu\annotation\Annotation($this);
+        $reflex->setMethod('reflex');
+        dump($reflex->get('doc'));
+        dump($reflex->get('auther'));
+        dump($reflex->get('update'));
+        dump($reflex->get('info',['head','name']));
+    }
 }
