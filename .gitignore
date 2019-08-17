@@ -2,9 +2,10 @@
 /.vscode
 /vendor
 *.log
-thinkphp
+*.html
+thinkphp/
 .env
 .DS_Store
 composer.lock
 /public/uploads
-*.html
+TRR_TO_Lin-cms-tp5.md
