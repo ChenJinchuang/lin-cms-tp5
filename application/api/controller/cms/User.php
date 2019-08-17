@@ -40,11 +40,13 @@ class User extends Controller
     {
 //        (new LoginForm())->goCheck();  # 开启注释验证器以后，本行可以去掉，这里做更替说明
         $params = $request->post();
-
         $user = LinUser::verify($params['nickname'], $params['password']);
         $result = Token::getToken($user);
-        Hook::listen('logger', array('uid' => $user->id, 'nickname' => $user->nickname, 'msg' => '登陆成功获取了令牌'));
-
+        Hook::listen('logger', array(
+            'uid' => $user->id,
+            'nickname' => $user->nickname,
+            'msg' => '登陆成功获取了令牌'
+        ));
         return $result;
     }
 

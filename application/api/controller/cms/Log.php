@@ -14,7 +14,6 @@ use think\Request;
 /**
  * Class Log
  * @doc('日志管理类')
- * @group('log')
  * @package app\api\controller\cms
  */
 class Log
@@ -23,7 +22,7 @@ class Log
     /**
      * @doc('查询所有日志')
      * @auth('查询所有日志','日志')
-     * @route('','get')
+     * @route('cms/log/','get')
      * @param Request $request
      * @return array
      * @throws \LinCmsTp5\admin\exception\logger\LoggerException
@@ -42,7 +41,7 @@ class Log
     /**
      * @doc('搜索日志')
      * @auth('搜索日志','日志')
-     * @route('search','get')
+     * @route('cms/log/search','get')
      * @param('user_name','用户🐱')
      * @param Request $request
      * @return array
@@ -62,7 +61,7 @@ class Log
     /**
      * @doc('查询日志记录的用户')
      * @auth('查询日志记录的用户','日志')
-     * @route('users','get')
+     * @route('cms/log/users','get')
      * @return array
      */
     public function getUsers()

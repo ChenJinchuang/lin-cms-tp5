@@ -159,8 +159,6 @@ class Admin
      * @doc('查询所有权限组')
      * @auth('查询所有权限组','管理员','hidden')
      * @route('group/all','get')
-     * @success('[]')
-     * @error('[]')
      * @return mixed
      */
     public function getGroupAll()
@@ -320,11 +318,28 @@ class Admin
      * @auth('查询所有可分配的权限','管理员','hidden')
      * @route('authority','get')
      * @success('{
-        "管理员": {
-            "新建权限组": [""]
-            },....
+            "日志": {
+                "查询所有日志": [
+                    ""
+                ],
+                "搜索日志": [
+                    ""
+                 ],
+                "查询日志记录的用户": [
+                    ""
+                 ]
+            },
+            "图书": {
+                "删除图书": [
+                    ""
+                ]
+            }
         }')
-     * @error('')
+     * @error('{
+        "code": 10000,
+        "message": "请求未携带authorization信息",
+        "request_url": "cms/admin/authority"
+        }')
      * @return array
      * @throws \ReflectionException
      * @throws \WangYu\exception\ReflexException

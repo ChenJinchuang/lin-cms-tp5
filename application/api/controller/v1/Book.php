@@ -16,24 +16,13 @@ use WangYu\exception\Exception;
 /**
  * Class Book
  * @doc('图书类')
- * @group('v1/book')
  * @package app\api\controller\v1
  */
 class Book
 {
     /**
      * @doc('查询指定bid的图书')
-     * @route(':bid','get')
-     * @success('{
-        "id": 1,
-        "title": "12",
-        "author": "21",
-        "summary": "123",
-        "image": "212",
-        "create_time": "2019-08-07 11:54:22",
-        "update_time": "2019-08-07 12:01:23",
-        "delete_time": null
-        }')
+     * @route('/v1/book/:bid','get')
      * @param Request $bid
      * @param('bid','bid的图书','require')
      * @return mixed
@@ -46,7 +35,7 @@ class Book
 
     /**
      * @doc('查询所有图书')
-     * @route('','get')
+     * @route('/v1/book/','get')
      * @return mixed
      */
     public function getBooks()
@@ -65,7 +54,7 @@ class Book
 
     /**
      * @doc('新建图书')
-     * @route('','post')
+     * @route('/v1/book/','post')
      * @param Request $request
      * @param('title','图书名称','require')
      * @param('author','图书作者','require')
@@ -82,7 +71,7 @@ class Book
 
     /**
      * @doc('更新图书')
-     * @route(':id','put')
+     * @route('/v1/book/:id','put')
      * @param Request $request
      * @param('id','图书id','require')
      * @return \think\response\Json
@@ -96,6 +85,8 @@ class Book
     }
 
     /**
+     * @doc('删除图书')
+     * @route('/v1/book/:id','delete')
      * @auth('删除图书','图书')
      * @param $bid
      * @return \think\response\Json

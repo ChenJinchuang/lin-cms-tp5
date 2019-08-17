@@ -120,7 +120,7 @@ Route::group('', function () {
 # 注册`api`模块的路由，并且设置两个全局中间件 'Auth','ReflexValidate'
 \WangYu\annotation\Route::reflex('api',['Auth','ReflexValidate']);
 
-# 注册单个路由，采用tp的get方法
+# 注册单个路由，采用tp的get方法，此路由为api文档的默认地址
 \WangYu\annotation\Route::get('apiShow','index/index/apiMdDemo');
 ```
 
@@ -153,7 +153,7 @@ Route::group('', function () {
     * Class Book
     * @doc('图书类')  # 👈这个地方，是在写类简介，告诉别人干嘛的
     * @group('v1/book') # 👈 这个是在，注册类路由分组，下面方法的路由就会先拼接类路由，等同tp的group
-    * ### @middleware # 👈 这个，类没有专属的中间件操作，所以这个中间件注册也不需要
+    * #@middleware() # 👈 这个，类没有专属的中间件操作，所以这个中间件注册也不需要
     * @package app\api\controller\v1
     */
     class Book{}
@@ -240,6 +240,13 @@ Options:
 php think lin:doc
 ```
 
+输出内容:
+
+```bash
+F:\project\open-source-object\lin-cms-tp5>php think lin:doc
+Successful. Output Document Successful . File Path ：F:\project\open-source-object\lin-cms-tp5\api-doc.html
+```
+
 ## `@step6` 修改异常捕获
 
 > http异常配置在 ：config/app.php
@@ -278,9 +285,9 @@ public function __construct($params = [])
 
 > 操作文件：`application/lib/auth/AuthMap.php`
 
-旧方法： `getMethodsDoc` 
+- 修改方法： `getMethodsDoc` 
 
+> 操作文件：`application/lib/auth/Auth.php`
 
-新方法： `newGetMethodsDoc`
-
-这个文件的操作我都有备注。
+- 修改方法： `actionAuth`
+- 新增方法： `checkUserAuth` 
