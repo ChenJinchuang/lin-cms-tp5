@@ -27,3 +27,17 @@
 ## 0.0.1（2019-04-29）
 
 * 初始化内测版
+
+## 0.0.1-ref-reflect (2019-08-18) 嗝嗝
+
+* 去掉composer的`lin-cms-tp/validate-core`依赖
+* 新增composer的`wangyu/tp-anntation`依赖
+* 新增注解路由功能，[参考文档](https://china-wangyu.github.io/views/php/trr/v0.0.2/路由/)
+* 新增注解接口文档功能,[参考文档](https://china-wangyu.github.io/views/php/trr/v0.0.2/API%E6%96%87%E6%A1%A3/)
+    ```bash
+    # 命令
+    php think lin:doc
+    ```
+* 更替注解验证器（使用方式不变）,[参考文档](https://china-wangyu.github.io/views/php/trr/v0.0.2/验证器/)
+* 更新注解权限功能
+* 新增api文档访问路由配置，访问地址：`http://域名:端口/apiShow`
