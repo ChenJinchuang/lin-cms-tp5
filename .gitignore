@@ -7,3 +7,4 @@ thinkphp
 .DS_Store
 composer.lock
 /public/uploads
+*.html
