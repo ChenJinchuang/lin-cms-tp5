@@ -78,27 +78,6 @@ class AuthMap
         return $methodsAuthGroup;
     }
 
-    /**
-     * @param $class
-     * @param $method
-     * @return string
-     * @throws \WangYu\exception\ReflexException
-     */
-//    public function getMethodDoc($doc)
-//    {
-//        $pattern = "#(@[auth]+\s*[a-zA-Z0-9,]\(')(.*)(',')(.*)('\))#";
-//
-//        preg_match_all($pattern, $doc, $matches, PREG_PATTERN_ORDER);
-//
-//        if (empty($matches[0])) {
-//            return [];
-//        }
-//
-//        return [
-//            $matches[4][0] => array($matches[2][0] => [''])
-//        ];
-//
-//    }
     public function getMethodAuthName($class,$method)
     {
         $authAnnotation = (new Reflex($class, $method))->get('auth');
