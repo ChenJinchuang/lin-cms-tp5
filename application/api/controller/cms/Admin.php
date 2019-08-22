@@ -110,6 +110,7 @@ class Admin
      * @auth('删除一个权限组','管理员','hidden')
      * @param $id
      * @return \think\response\Json
+     * @throws GroupException
      */
     public function deleteGroup($id)
     {
@@ -193,8 +194,7 @@ class Admin
     {
         $params = $request->post();
 
-        $auths = json_decode($params['auths'], true);
-        LinAuth::where(['group_id' => $params['group_id'], 'auth' => $auths])
+        LinAuth::where(['group_id' => $params['group_id'], 'auth' => $params['auths']])
             ->delete();
         return writeJson(201, '', '删除权限成功');
     }
