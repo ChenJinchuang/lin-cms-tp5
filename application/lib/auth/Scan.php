@@ -17,10 +17,14 @@ class Scan
 
     public function __construct()
     {
+        $app_namespace = Env::get('app_namespace');
+        $module = request()->module() ? request()->module().'\\': '';
+        $controller = config('app.url_controller_layer');
+
         // 指定控制器层的命名空间
-        $this->controller_namespace =  'app\\api\\controller\\';
+        $this->controller_namespace =  $app_namespace.'\\'.$module.$controller.'\\';
         // 拼接出当前应用模块下的控制器层目录在服务器上的绝对路径
-        $this->controller_path = Env::get('module_path').'controller';
+        $this->controller_path = Env::get('module_path').$controller;
         // 初始化需权限扫描的命名空间列表
         $this->authScanNamespaceList = [];
     }
