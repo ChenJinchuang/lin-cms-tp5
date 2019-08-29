@@ -178,11 +178,13 @@ All Done. Took 0.0385s
 如果前面的过程一切顺利，项目所需的准备工作就已经全部完成，这时候你就可以试着让工程运行起来了。在工程的根目录打开命令行，输入：
 
 ```bash
-php think run //启动thinkPHP内置的Web服务器
+php think run --port 5000 //启动thinkPHP内置的Web服务器
 ```
 
+启动成功后会看到如下提示：
+
 ```php
-ThinkPHP Development server is started On <http://127.0.0.1:8000/>
+ThinkPHP Development server is started On <http://127.0.0.1:5000/>
 You can exit with `CTRL-C`
 ```
 
@@ -196,6 +198,10 @@ You can exit with `CTRL-C`
 ## 更新日志
 
 [查看日志](https://chenjinchuang.github.io/log/)
+
+## 常见问题
+
+[查看常见问题](https://chenjinchuang.github.io/qa/)
 
 ## 讨论交流
 
