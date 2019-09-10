@@ -29,7 +29,7 @@ class Admin
     /**
      * @doc('查询所有用户')
      * @auth('查询所有用户','管理员','hidden')
-     * @route('users','get')
+     * @route('users/:group_id','get')
      * @success('{
             "collection": [
                 {
@@ -59,7 +59,6 @@ class Admin
         }')
      * @error('')
      * @param Request $request
-     * @param('group_id','分组id')
      * @return array
      * @throws \think\exception\DbException
      */
@@ -74,7 +73,7 @@ class Admin
     /**
      * @doc('修改用户密码')
      * @auth('修改用户密码','管理员','hidden')
-     * @route('password','put')
+     * @route('password/:uid','put')
      * @success('{
         "error_code": 0,
         "result": "",
@@ -86,7 +85,6 @@ class Admin
         "request_url": "cms\/admin\/password\/2"
         }')
      * @param Request $request
-     * @param('uid','用户id','require|>:0')
      * @param('new_password','用户密码','require|alphaDash|length:3,16')
      * @return \think\response\Json
      * @throws \LinCmsTp5\admin\exception\user\UserException
@@ -127,7 +125,7 @@ class Admin
     /**
      * @doc('管理员更新用户信息')
      * @auth('管理员更新用户信息','管理员','hidden')
-     * @route('','put')
+     * @route(':uid','put')
      * @success('{
         "error_code": 0,
         "result": "",
@@ -139,7 +137,6 @@ class Admin
         "request_url": "cms\/admin\/4"
         }')
      * @param Request $request
-     * @param('uid','用户id','require|integer|between:1,10000000000')
      * @param('email','用户email','require|email')
      * @return \think\response\Json
      * @throws \think\db\exception\DataNotFoundException
@@ -171,7 +168,7 @@ class Admin
     /**
      * @doc('查询一个权限组及其权限')
      * @auth('查询一个权限组及其权限','管理员','hidden')
-     * @route('group','get')
+     * @route('group/:id','get')
      * @success('{
         "id": 2,
         "name": "34234",
@@ -201,7 +198,6 @@ class Admin
         "request_url": "cms\/admin\/group\/1"
         }')
      * @param $id
-     * @param('id','分组id','require|integer|between:0,10000000000')
      * @return array|\PDOStatement|string|\think\Model
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
@@ -219,7 +215,7 @@ class Admin
     /**
      * @doc('删除一个权限组')
      * @auth('删除一个权限组','管理员','hidden')
-     * @route('group','delete')
+     * @route('group/:id','delete')
      * @success('{
         "error_code": 0,
         "result": "",
@@ -231,7 +227,6 @@ class Admin
         "request_url": "cms\/admin\/group\/1"
         }')
      * @param $id
-     * @param('id','分组id','require|integer|between:0,10000000000')
      * @return \think\response\Json
      * @throws GroupException
      */
@@ -285,7 +280,7 @@ class Admin
     /**
      * @doc('更新一个权限组')
      * @auth('更新一个权限组','管理员','hidden')
-     * @route('group','put')
+     * @route('group/:id','put')
      * @success('{
         "error_code": 0,
         "result": "",
@@ -294,7 +289,6 @@ class Admin
      * @error('')
      * @param Request $request
      * @param $id
-     * @param('id','分组id','require|integer|between:0,10000000000')
      * @return \think\response\Json
      * @throws GroupException
      */

@@ -2,11 +2,8 @@
 
 namespace app\api\controller\cms;
 
-//use app\api\validate\user\LoginForm;  # 开启注释验证器以后，本行可以去掉，这里做更替说明
-//use app\api\validate\user\RegisterForm; # 开启注释验证器以后，本行可以去掉，这里做更替说明
 use app\lib\token\Token;
 use LinCmsTp5\admin\model\LinUser;
-use think\App;
 use think\Controller;
 use think\facade\Hook;
 use think\Request;
@@ -38,7 +35,6 @@ class User extends Controller
      */
     public function login(Request $request)
     {
-//        (new LoginForm())->goCheck();  # 开启注释验证器以后，本行可以去掉，这里做更替说明
         $params = $request->post();
         $user = LinUser::verify($params['nickname'], $params['password']);
         $result = Token::getToken($user);
@@ -109,8 +105,6 @@ class User extends Controller
      */
     public function register(Request $request)
     {
-//        (new RegisterForm())->goCheck(); # 开启注释验证器以后，本行可以去掉，这里做更替说明
-
         $params = $request->post();
         LinUser::createUser($params);
 
