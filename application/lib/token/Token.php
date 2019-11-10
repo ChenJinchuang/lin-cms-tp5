@@ -37,7 +37,7 @@ class Token
             $user = self::getCurrentUser();
             $accessToken = self::createAccessToken($user);
         } catch (TokenException $ex) {
-            throw new TokenException(['msg' => $ex->msg,'error_code' => $ex->error_code ?$ex->error_code : 10100]);
+            throw new TokenException(['msg' => $ex->msg]);
         }
 
         return [
