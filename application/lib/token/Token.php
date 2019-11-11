@@ -38,7 +38,7 @@ class Token
             $user = LinUser::get($uid);
             $accessToken = self::createAccessToken($user);
         } catch (TokenException $ex) {
-            throw new TokenException(['msg' => $ex->msg]);
+            throw new TokenException(['msg' => $ex->msg,'error_code' => 10010]);
         }
 
         return [
