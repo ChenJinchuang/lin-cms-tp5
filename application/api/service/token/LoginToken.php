@@ -142,7 +142,7 @@ class LoginToken
 
     public function getCurrentUserName()
     {
-        return $this->getExtendVal('username');
+        return $this->getExtendVal('identifier');
     }
 
     public function getTokenFromHeaders(): string
@@ -150,15 +150,15 @@ class LoginToken
         $authorization = Request::header('authorization');
 
         if (!$authorization) {
-            throw new TokenException(['msg' => '请求未携带Authorization信息', 'error_code' => 10000]);
+            throw new TokenException(['msg' => '请求未携带Authorization信息']);
         }
 
         list($type, $token) = explode(' ', $authorization);
 
-        if ($type !== 'Bearer') throw new TokenException(['msg' => '接口认证方式需为Bearer', 'error_code' => 10000]);
+        if ($type !== 'Bearer') throw new TokenException(['msg' => '接口认证方式需为Bearer']);
 
         if (!$token || $token === 'undefined') {
-            throw new TokenException(['msg' => '尝试获取的Authorization信息不存在', 'error_code' => 10000]);
+            throw new TokenException(['msg' => '尝试获取的Authorization信息不存在']);
         }
 
         return $token;
