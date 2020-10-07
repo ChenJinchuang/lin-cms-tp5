@@ -10,10 +10,14 @@ namespace app\api\service\token;
 
 
 use app\lib\exception\token\TokenException;
+use Firebase\JWT\BeforeValidException;
+use Firebase\JWT\ExpiredException;
+use Firebase\JWT\SignatureInvalidException;
+use qinchen\token\Token as TokenUtils;
 use qinchen\token\TokenConfig;
 use think\facade\Config;
-use qinchen\token\Token as TokenUtils;
 use think\facade\Request;
+use UnexpectedValueException;
 
 
 class LoginToken
@@ -69,10 +73,43 @@ class LoginToken
      * 令牌刷新
      * @param string $refreshToken 当开启了双令牌后颁发的refreshToken,用于刷新accessToken
      * @return array
+     * @throws TokenException
      */
     public function refresh(string $refreshToken): array
     {
-        return TokenUtils::refresh($refreshToken, $this->tokenConfig);
+        try {
+            return TokenUtils::refresh($refreshToken, $this->tokenConfig);
+        } catch (SignatureInvalidException $signatureInvalidException) {
+            throw new TokenException(['msg' => '令牌签名错误']);
+        } catch (BeforeValidException $beforeValidException) {
+            throw new TokenException();
+        } catch (ExpiredException $expiredException) {
+            throw new TokenException(['error_code' => 10042, 'msg' => '令牌已过期，请重新登录']);
+        } catch (UnexpectedValueException $unexpectedValueException) {
+            throw new TokenException();
+        }
+    }
+
+    /**
+     * @param string|null $token
+     * @param string $tokenType
+     * @return array
+     * @throws TokenException
+     */
+    public function verify(string $token = null, string $tokenType = 'access')
+    {
+        $token = $token ?: $this->getTokenFromHeaders();
+        try {
+            return TokenUtils::verifyToken($token, $tokenType, $this->tokenConfig);
+        } catch (SignatureInvalidException $signatureInvalidException) {
+            throw new TokenException(['msg' => '令牌签名错误']);
+        } catch (BeforeValidException $beforeValidException) {
+            throw new TokenException();
+        } catch (ExpiredException $expiredException) {
+            throw new TokenException(['error_code' => 10041, 'msg' => '令牌已过期']);
+        } catch (UnexpectedValueException $unexpectedValueException) {
+            throw new TokenException();
+        }
     }
 
     /**
@@ -84,9 +121,7 @@ class LoginToken
      */
     public function getTokenExtend(string $token = null, string $tokenType = 'access'): array
     {
-        $token = $token ?: $this->getTokenFromHeaders();
-        $payload = TokenUtils::verifyToken($token, $tokenType, $this->tokenConfig);
-        return (array)$payload['extend'];
+        return (array)$this->verify($token, $tokenType)['extend'];
     }
 
     /**
