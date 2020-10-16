@@ -157,7 +157,8 @@ class User
     public function refresh()
     {
         $token = $this->loginTokenService->getTokenFromHeaders();
-        $result = $this->loginTokenService->refresh($token);
-        return $result;
+        $token = $this->loginTokenService->refresh($token);
+
+        return ['access_token' => $token['accessToken']];
     }
 }

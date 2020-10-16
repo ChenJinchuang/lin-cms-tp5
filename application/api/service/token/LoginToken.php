@@ -106,7 +106,7 @@ class LoginToken
         } catch (BeforeValidException $beforeValidException) {
             throw new TokenException();
         } catch (ExpiredException $expiredException) {
-            throw new TokenException(['error_code' => 10041, 'msg' => '令牌已过期']);
+            throw new TokenException(['error_code' => 10040, 'msg' => '令牌已过期']);
         } catch (UnexpectedValueException $unexpectedValueException) {
             throw new TokenException();
         }
